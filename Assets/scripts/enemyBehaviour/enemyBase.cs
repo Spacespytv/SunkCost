@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour
     private Material originalMat;
     private Coroutine flashCoroutine;
 
-    private BoxCollider2D hurtbox;
+    protected BoxCollider2D hurtbox;
 
     protected virtual void Start()
     {

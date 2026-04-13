@@ -2707,25 +2707,45 @@ PrefabInstance:
       propertyPath: m_Name
       value: snailEnemy
       objectReference: {fileID: 0}
-    - target: {fileID: 7849346977213655994, guid: 84c93ce97c63365438b55b019797ecae, type: 3}
+    - target: {fileID: 1628806053574993352, guid: 84c93ce97c63365438b55b019797ecae, type: 3}
+      propertyPath: m_Size.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3294602467505953994, guid: 84c93ce97c63365438b55b019797ecae, type: 3}
       propertyPath: camShake
       value: 
       objectReference: {fileID: 1397099340}
-    - target: {fileID: 7849346977213655994, guid: 84c93ce97c63365438b55b019797ecae, type: 3}
+    - target: {fileID: 3294602467505953994, guid: 84c93ce97c63365438b55b019797ecae, type: 3}
       propertyPath: leftPoint
       value: 
       objectReference: {fileID: 573467749}
-    - target: {fileID: 7849346977213655994, guid: 84c93ce97c63365438b55b019797ecae, type: 3}
+    - target: {fileID: 3294602467505953994, guid: 84c93ce97c63365438b55b019797ecae, type: 3}
       propertyPath: rightPoint
       value: 
       objectReference: {fileID: 721424386}
+    - target: {fileID: 3294602467505953994, guid: 84c93ce97c63365438b55b019797ecae, type: 3}
+      propertyPath: slimeOffset.x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3294602467505953994, guid: 84c93ce97c63365438b55b019797ecae, type: 3}
+      propertyPath: slimeOffset.y
+      value: -0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3294602467505953994, guid: 84c93ce97c63365438b55b019797ecae, type: 3}
+      propertyPath: shellFlashObject
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7030339751221972406, guid: 84c93ce97c63365438b55b019797ecae, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7964853511331745581, guid: 84c93ce97c63365438b55b019797ecae, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.5062976
+      value: -3.5833335
       objectReference: {fileID: 0}
     - target: {fileID: 7964853511331745581, guid: 84c93ce97c63365438b55b019797ecae, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.9463457
+      value: -1.9166667
       objectReference: {fileID: 0}
     - target: {fileID: 7964853511331745581, guid: 84c93ce97c63365438b55b019797ecae, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2757,6 +2777,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7964853511331745581, guid: 84c93ce97c63365438b55b019797ecae, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9050005911972650348, guid: 84c93ce97c63365438b55b019797ecae, type: 3}
+      propertyPath: m_Size.x
+      value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 9050005911972650348, guid: 84c93ce97c63365438b55b019797ecae, type: 3}
+      propertyPath: m_Size.y
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9050005911972650348, guid: 84c93ce97c63365438b55b019797ecae, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9050005911972650348, guid: 84c93ce97c63365438b55b019797ecae, type: 3}
+      propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
