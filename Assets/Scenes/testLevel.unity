@@ -290,6 +290,8 @@ MonoBehaviour:
     prefab: {fileID: 5815148273148810065, guid: 7fc14dd063b8b1d4aa1ffc38dbcc6767, type: 3}
   - name: ratExplosion
     prefab: {fileID: 5815148273148810065, guid: 929990fd39dab72428564929b04cc3bb, type: 3}
+  - name: snailExplosion
+    prefab: {fileID: 5815148273148810065, guid: ddd1c9cc7975e3348ab3d5a7a19f1280, type: 3}
 --- !u!4 &859834641
 Transform:
   m_ObjectHideFlags: 0
@@ -2741,7 +2743,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7964853511331745581, guid: 84c93ce97c63365438b55b019797ecae, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.5833335
+      value: -8.75
       objectReference: {fileID: 0}
     - target: {fileID: 7964853511331745581, guid: 84c93ce97c63365438b55b019797ecae, type: 3}
       propertyPath: m_LocalPosition.y

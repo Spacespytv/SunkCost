@@ -101,8 +101,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
-  lifeTime: 1
-  shrinkSpeed: 0.5
+  lifeTime: 0.75
+  shrinkSpeed: 0.75
 --- !u!61 &-3145454733974763080
 BoxCollider2D:
   m_ObjectHideFlags: 0
