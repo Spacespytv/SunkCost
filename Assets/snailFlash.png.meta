@@ -178,7 +178,10 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      snailFlash_0: 4492581295558263492
+      snailFlash_1: -7186378406801772732
+      snailFlash_2: -6041292524157068492
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
