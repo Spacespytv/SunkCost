@@ -12,12 +12,24 @@ public class RatEnemy : Enemy
 
     protected override void Start()
     {
-        base.Start(); 
+        base.Start();
         rb = GetComponent<Rigidbody2D>();
+
+        if (leftPoint == null)
+        {
+            GameObject lp = GameObject.Find("LeftPoint");
+            if (lp != null) leftPoint = lp.transform;
+        }
+
+        if (rightPoint == null)
+        {
+            GameObject rp = GameObject.Find("RightPoint");
+            if (rp != null) rightPoint = rp.transform;
+        }
 
         if (leftPoint == null || rightPoint == null)
         {
-            Debug.LogWarning("Please assign Left and Right patrol points to the Rat!");
+            Debug.LogWarning(gameObject.name + " couldn't find the Arena Patrol Points! Check your object names.");
         }
     }
 

@@ -79,7 +79,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -6207193392188836992, guid: bfcf26d8a7a2751428c57a732e9d79bb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -119,8 +119,7 @@ MonoBehaviour:
   rightPoint: {fileID: 0}
   slimePrefab: {fileID: 7538420815409519969, guid: 146c40b928cbd3542ade1d81d5b06fdb, type: 3}
   slimeSpawnRate: 0.1
-  shellFlashObject: {fileID: 0}
-  shellBlinkRate: 0.1
+  slimeOffset: {x: -0.5, y: -0.4}
 --- !u!50 &2510150682034489649
 Rigidbody2D:
   serializedVersion: 4
@@ -224,11 +223,11 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.5, y: 0}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -238,7 +237,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.5, y: 1.1}
+  m_Size: {x: 1.4, y: 1.2}
   m_EdgeRadius: 0
 --- !u!95 &-2296866376002932382
 Animator:

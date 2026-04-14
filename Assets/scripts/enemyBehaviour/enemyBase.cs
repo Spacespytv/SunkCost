@@ -11,9 +11,9 @@ public class Enemy : MonoBehaviour
     [Header("Visuals & FX")]
     [SerializeField] protected SpriteRenderer sr;
     [SerializeField] protected string deathParticleName = "EnemyExplosion";
-    [SerializeField] private CameraShake camShake;
-    [SerializeField] private float fireShakePower = 0.2f;
-    [SerializeField] private float fireShakeDuration = 0.1f;
+    [SerializeField] protected CameraShake camShake;
+    [SerializeField] protected float fireShakePower = 0.2f;
+    [SerializeField] protected float fireShakeDuration = 0.1f;
 
     [Header("Material Swap Flash")]
     [SerializeField] private Material redFlashMat;
@@ -29,6 +29,11 @@ public class Enemy : MonoBehaviour
         if (sr != null)
         {
             originalMat = sr.material;
+        }
+
+        if (camShake == null)
+        {
+            camShake = Object.FindAnyObjectByType<CameraShake>();
         }
 
         BoxCollider2D[] colliders = GetComponents<BoxCollider2D>();

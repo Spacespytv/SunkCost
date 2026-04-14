@@ -20,6 +20,18 @@ public class SnailEnemy : Enemy
     {
         base.Start();
         rb = GetComponent<Rigidbody2D>();
+
+        if (leftPoint == null)
+        {
+            GameObject lp = GameObject.Find("LeftPoint");
+            if (lp != null) leftPoint = lp.transform;
+        }
+
+        if (rightPoint == null)
+        {
+            GameObject rp = GameObject.Find("RightPoint");
+            if (rp != null) rightPoint = rp.transform;
+        }
     }
 
     protected override void Update()
