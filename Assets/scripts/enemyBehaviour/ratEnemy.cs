@@ -6,6 +6,7 @@ public class RatEnemy : Enemy
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private Transform leftPoint;
     [SerializeField] private Transform rightPoint;
+    [SerializeField] private float speedVariance = 0.5f;
 
     private bool movingRight = true;
     private Rigidbody2D rb;
@@ -14,6 +15,7 @@ public class RatEnemy : Enemy
     {
         base.Start();
         rb = GetComponent<Rigidbody2D>();
+        moveSpeed += Random.Range(-speedVariance, speedVariance);
 
         if (leftPoint == null)
         {

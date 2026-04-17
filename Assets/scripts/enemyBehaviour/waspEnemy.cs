@@ -9,7 +9,8 @@ public class WaspEnemy : Enemy
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private float acceleration = 2f;
-    
+    [SerializeField] private float speedVariance = 0.5f;
+
     [Header("Shooting Logic")]
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform firePoint;
@@ -30,6 +31,7 @@ public class WaspEnemy : Enemy
     {
         base.Start();
         rb = GetComponent<Rigidbody2D>();
+        moveSpeed += Random.Range(-speedVariance, speedVariance);
         rb.gravityScale = 0f;
         waspSR = GetComponentInChildren<SpriteRenderer>();
 

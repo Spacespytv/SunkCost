@@ -6,6 +6,7 @@ public class SnailEnemy : Enemy
     [SerializeField] private float moveSpeed = 1f;
     [SerializeField] private Transform leftPoint;
     [SerializeField] private Transform rightPoint;
+    [SerializeField] private float speedVariance = 0.5f;
 
     [Header("Slime Trail")]
     [SerializeField] private GameObject slimePrefab;
@@ -20,6 +21,7 @@ public class SnailEnemy : Enemy
     {
         base.Start();
         rb = GetComponent<Rigidbody2D>();
+        moveSpeed += Random.Range(-speedVariance, speedVariance);
 
         if (leftPoint == null)
         {

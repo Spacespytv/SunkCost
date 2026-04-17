@@ -10,9 +10,11 @@ public class MoleEnemy : Enemy
     [SerializeField] private float chaseSpeed = 4f;
     [SerializeField] private float acceleration = 3f;
     [SerializeField] private float burstForce = 15f;
+    [SerializeField] private float speedVariance = 0.8f;
 
     [Header("Timers")]
     [SerializeField] private float burrowDuration = 3f;
+    [SerializeField] private float burrowVariance = 0f;
     [SerializeField] private float warningDuration = 0.5f;
     [SerializeField] private float digInDuration = 0.4f;
     [SerializeField] private float launchGracePeriod = 0.15f;
@@ -46,18 +48,40 @@ public class MoleEnemy : Enemy
     private float airTimer;
     private bool isOnCeiling = false;
 
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+
+        chaseSpeed += Random.Range(-speedVariance, speedVariance);
+        burrowDuration += Random.Range(-burrowVariance, burrowVariance);
+    }
+
     protected override void Start()
     {
         if (sr == null && moleVisual != null) sr = moleVisual.GetComponent<SpriteRenderer>();
 
         base.Start();
-        rb = GetComponent<Rigidbody2D>();
+        if (rb == null) rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0f;
 
         GameObject p = GameObject.FindGameObjectWithTag("Player");
         if (p != null) player = p.transform;
 
+        if (currentState == MoleState.DiggingIn) return;
         StartCoroutine(DigInRoutine(false, transform.position, true));
+    }
+
+    public void InitializeFromSpawner(bool startOnCeiling)
+    {
+        if (rb == null) rb = GetComponent<Rigidbody2D>();
+
+        isOnCeiling = startOnCeiling;
+
+        float currentXScale = Mathf.Sign(transform.localScale.x);
+        transform.localScale = new Vector3(currentXScale, isOnCeiling ? -1f : 1f, 1f);
+
+        StopAllCoroutines();
+        StartCoroutine(DigInRoutine(isOnCeiling, transform.position, true));
     }
 
     protected override void Update()
@@ -150,11 +174,11 @@ public class MoleEnemy : Enemy
 
             Quaternion particleRot = isOnCeiling ? Quaternion.Euler(0, 0, 180f) : Quaternion.identity;
             ParticleManager.Instance.PlayEffect(burstParticle, spawnPos, particleRot);
+
             if (camShake != null)
             {
                 camShake.StartShake(fireShakeDuration, fireShakePower);
             }
-
         }
 
         if (burrowVisual != null) burrowVisual.SetActive(false);
@@ -166,12 +190,12 @@ public class MoleEnemy : Enemy
 
     private void CheckForSurface()
     {
-        if (rb.velocity.y > 0.1f)
+        if (rb.velocity.y > 0.1f) 
         {
             RaycastHit2D hitUp = Physics2D.Raycast(transform.position, Vector2.up, surfaceCheckDistance, surfaceLayer);
             if (hitUp.collider != null) StartCoroutine(DigInRoutine(true, hitUp.point));
         }
-        else if (rb.velocity.y < -0.1f)
+        else if (rb.velocity.y < -0.1f) 
         {
             RaycastHit2D hitDown = Physics2D.Raycast(transform.position, Vector2.down, surfaceCheckDistance, surfaceLayer);
             if (hitDown.collider != null) StartCoroutine(DigInRoutine(false, hitDown.point));

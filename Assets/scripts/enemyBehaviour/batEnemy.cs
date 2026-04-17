@@ -5,7 +5,8 @@ public class BatEnemy : Enemy
     [Header("Flight Settings")]
     [SerializeField] private float flySpeed = 4f;
     [SerializeField] private float detectionRange = 10f;
-    [SerializeField] private float acceleration = 2f; 
+    [SerializeField] private float acceleration = 2f;
+    private float speedVariance = 1.0f;
 
     private Transform player;
     private Rigidbody2D rb;
@@ -14,7 +15,7 @@ public class BatEnemy : Enemy
     {
         base.Start();
         rb = GetComponent<Rigidbody2D>();
-
+        flySpeed += Random.Range(-speedVariance, speedVariance);
         rb.gravityScale = 0;
         rb.drag = 0;
 
@@ -24,12 +25,18 @@ public class BatEnemy : Enemy
 
     protected override void Update()
     {
-        base.Update(); 
+        base.Update();
 
         if (player != null)
         {
             float directionToPlayer = player.position.x - transform.position.x;
-            if (sr != null) sr.flipX = directionToPlayer < 0;
+
+            if (Mathf.Abs(directionToPlayer) > 0.1f)
+            {
+                float targetScaleX = directionToPlayer > 0 ? 1f : -1f;
+
+                transform.localScale = new Vector3(targetScaleX, transform.localScale.y, transform.localScale.z);
+            }
         }
     }
 

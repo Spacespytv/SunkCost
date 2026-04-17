@@ -78,8 +78,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1760741327
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 5742915519180568612, guid: c4360d67e6ad5ad4ba2aedb0d23598ff, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -109,8 +109,8 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
-  sr: {fileID: 0}
-  deathParticleName: BeeExplosion
+  sr: {fileID: 7030339751221972406}
+  deathParticleName: WaspExplosion
   camShake: {fileID: 0}
   fireShakePower: 0.2
   fireShakeDuration: 0.1
@@ -120,7 +120,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 8431052145008743325, guid: 566ce053af935f942aad4fae08624381, type: 3}
   firePoint: {fileID: 2339455415052283206}
   fireRate: 2
-  chargeDuration: 0.75
+  chargeDuration: 1
   chargeParticle: waspCharge
   fireParticle: waspFire
   blinkRate: 0.05
@@ -290,7 +290,7 @@ Transform:
   m_GameObject: {fileID: 8941526575499188245}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.8253931, y: -0.6417169, z: 0}
+  m_LocalPosition: {x: -0.6666666, y: -0.50000006, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

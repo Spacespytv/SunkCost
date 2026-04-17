@@ -73,8 +73,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1760741327
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: -5427164653334127848, guid: 64ffefa00eea3ee42beb60ece09c8563, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -158,7 +158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3d8558285ae1214cbb8a7f08cdee33a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 150
+  health: 100
   contactDamage: 20
   playerLayer:
     serializedVersion: 2
@@ -172,7 +172,9 @@ MonoBehaviour:
   chaseSpeed: 6
   acceleration: 4
   burstForce: 10
+  speedVariance: 0.8
   burrowDuration: 2.5
+  burrowVariance: 0
   warningDuration: 0.75
   digInDuration: 0
   launchGracePeriod: 0.15
