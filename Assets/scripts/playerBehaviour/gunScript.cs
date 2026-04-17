@@ -40,7 +40,6 @@ public class GunController : MonoBehaviour
     {
         Vector2 direction = Vector2.zero;
 
-        //Mouse Logic
         if (Mouse.current != null && Mouse.current.delta.ReadValue().sqrMagnitude > 0.01f)
         {
             Vector3 mousePos = Mouse.current.position.ReadValue();
@@ -48,7 +47,6 @@ public class GunController : MonoBehaviour
             Vector3 mouseWorldPos = cam.ScreenToWorldPoint(mousePos);
             direction = (mouseWorldPos - gunPivot.position);
         }
-        //Gamepad Logic
         else if (aimInput.sqrMagnitude > 0.1f)
         {
             direction = aimInput;

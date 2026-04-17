@@ -10,12 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 7964853511331745581}
   - component: {fileID: 7030339751221972406}
-  - component: {fileID: 5484089072813028359}
+  - component: {fileID: 8420865656111305823}
   - component: {fileID: 2510150682034489649}
   - component: {fileID: 1651128811623612197}
   - component: {fileID: 1628806053574993352}
+  - component: {fileID: 5213765698071569691}
   m_Layer: 8
-  m_Name: enemyTemplate
+  m_Name: waspEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,7 +34,8 @@ Transform:
   m_LocalPosition: {x: -0.29960686, y: -0.6499499, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2339455415052283206}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7030339751221972406
@@ -79,7 +81,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 5742915519180568612, guid: c4360d67e6ad5ad4ba2aedb0d23598ff, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -90,7 +92,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5484089072813028359
+--- !u!114 &8420865656111305823
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,20 +101,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 1250557887736823096}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5250dcba34193f143ac8d7464c0781db, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b3b680c7846b0248a7688ae8427d78a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
+  health: 400
   contactDamage: 10
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
-  sr: {fileID: 7030339751221972406}
-  deathParticleName: EnemyExplosion
+  sr: {fileID: 0}
+  deathParticleName: BeeExplosion
   camShake: {fileID: 0}
   fireShakePower: 0.2
   fireShakeDuration: 0.1
-  redFlashMat: {fileID: 0}
+  redFlashMat: {fileID: 2100000, guid: c7f4c8e54a412a54a8962695f965f2e5, type: 2}
+  moveSpeed: 4
+  acceleration: 3
+  projectilePrefab: {fileID: 8431052145008743325, guid: 566ce053af935f942aad4fae08624381, type: 3}
+  firePoint: {fileID: 2339455415052283206}
+  fireRate: 2
+  chargeDuration: 0.75
+  chargeParticle: waspCharge
+  fireParticle: waspFire
+  blinkRate: 0.05
 --- !u!50 &2510150682034489649
 Rigidbody2D:
   serializedVersion: 4
@@ -178,13 +189,13 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 2.6666667, y: 2.6666667}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.5, y: 0.5}
   m_EdgeRadius: 0
 --- !u!61 &1628806053574993352
 BoxCollider2D:
@@ -216,19 +227,72 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.088861585, y: 0.20252293}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 2.6666667, y: 2.6666667}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2, y: 2}
   m_EdgeRadius: 0
+--- !u!95 &5213765698071569691
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1250557887736823096}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fb08bf6e41659db40b89f8b675e975b1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &8941526575499188245
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2339455415052283206}
+  m_Layer: 8
+  m_Name: firePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2339455415052283206
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8941526575499188245}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.8253931, y: -0.6417169, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7964853511331745581}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
