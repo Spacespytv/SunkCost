@@ -42,6 +42,13 @@ public class MoleEnemy : Enemy
     [SerializeField] private string digInParticle = "digInParticle";
     [SerializeField] private Vector2 digInParticleOffset = new Vector2(0, 0);
 
+    [Header("Elevator Gap Settings")]
+    [SerializeField] private float gapMinX; 
+    [SerializeField] private float gapMaxX;
+    [SerializeField] private float minLaunchDelay = 0.1f; 
+    [SerializeField] private float maxLaunchDelay = 0.5f;
+
+    private bool isWaitingToLaunch = false;
     private Transform player;
     private Rigidbody2D rb;
     private float burrowTimer;
@@ -128,10 +135,33 @@ public class MoleEnemy : Enemy
         rb.velocity = new Vector2(Mathf.Lerp(rb.velocity.x, targetVelocityX, acceleration * Time.fixedDeltaTime), 0f);
 
         burrowTimer += Time.fixedDeltaTime;
-        if (burrowTimer >= burrowDuration)
+
+        if (burrowTimer >= burrowDuration && !isWaitingToLaunch)
+        {
+            bool isInGap = transform.position.x > gapMinX && transform.position.x < gapMaxX;
+
+            if (!isInGap)
+            {
+                StartCoroutine(DelayedLaunch());
+            }
+        }
+    }
+
+    private IEnumerator DelayedLaunch()
+    {
+        isWaitingToLaunch = true;
+
+        float randomDelay = Random.Range(minLaunchDelay, maxLaunchDelay);
+        yield return new WaitForSeconds(randomDelay);
+
+        bool isInGap = transform.position.x > gapMinX && transform.position.x < gapMaxX;
+
+        if (!isInGap)
         {
             StartCoroutine(WarningThenBurst());
         }
+
+        isWaitingToLaunch = false;
     }
 
     private IEnumerator WarningThenBurst()

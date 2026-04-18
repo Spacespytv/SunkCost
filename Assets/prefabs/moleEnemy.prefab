@@ -194,6 +194,10 @@ MonoBehaviour:
   burstParticleOffset: {x: -0.05, y: 0.7}
   digInParticle: digInParticle
   digInParticleOffset: {x: 0, y: 0.8}
+  gapMinX: -2.75
+  gapMaxX: 2.75
+  minLaunchDelay: 0
+  maxLaunchDelay: 0.3
 --- !u!50 &2510150682034489649
 Rigidbody2D:
   serializedVersion: 4
