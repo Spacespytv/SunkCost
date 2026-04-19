@@ -80,7 +80,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1760741327
   m_SortingLayer: -1
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 5742915519180568612, guid: c4360d67e6ad5ad4ba2aedb0d23598ff, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -117,6 +117,7 @@ MonoBehaviour:
   redFlashMat: {fileID: 2100000, guid: c7f4c8e54a412a54a8962695f965f2e5, type: 2}
   moveSpeed: 4
   acceleration: 3
+  speedVariance: 0.5
   projectilePrefab: {fileID: 8431052145008743325, guid: 566ce053af935f942aad4fae08624381, type: 3}
   firePoint: {fileID: 2339455415052283206}
   fireRate: 2

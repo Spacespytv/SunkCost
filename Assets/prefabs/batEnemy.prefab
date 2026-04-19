@@ -79,7 +79,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1760741327
   m_SortingLayer: -1
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -697763020151794088, guid: 43a0782e86eaf4b41a7c04e868022c76, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -115,7 +115,7 @@ MonoBehaviour:
   fireShakeDuration: 0.1
   redFlashMat: {fileID: 2100000, guid: c7f4c8e54a412a54a8962695f965f2e5, type: 2}
   flySpeed: 3
-  detectionRange: 12
+  detectionRange: 20
   acceleration: 2
 --- !u!50 &2510150682034489649
 Rigidbody2D:

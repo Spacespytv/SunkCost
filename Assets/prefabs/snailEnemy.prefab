@@ -79,7 +79,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1760741327
   m_SortingLayer: -1
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -6207193392188836992, guid: bfcf26d8a7a2751428c57a732e9d79bb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -117,6 +117,7 @@ MonoBehaviour:
   moveSpeed: 2
   leftPoint: {fileID: 0}
   rightPoint: {fileID: 0}
+  speedVariance: 0.5
   slimePrefab: {fileID: 7538420815409519969, guid: 146c40b928cbd3542ade1d81d5b06fdb, type: 3}
   slimeSpawnRate: 0.1
   slimeOffset: {x: -0.5, y: -0.4}
