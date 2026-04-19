@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: fc16f6e2812486343b5a6ad8a629c6d9
+guid: 98c6dfbf0fe32f54d9134d684ee9937b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8476764939301271271
-    second: rock2_0
+      213: -1768854372134492381
+    second: bg1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -40,23 +40,23 @@ TextureImporter:
     filterMode: 0
     aniso: 1
     mipBias: 0
-    wrapU: 1
-    wrapV: 1
-    wrapW: 1
+    wrapU: 0
+    wrapV: 0
+    wrapW: 0
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
   spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 9
-  spritePivot: {x: 0.5, y: 0.41666666}
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 12
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: 1
+  spriteTessellationDetail: -1
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -100,52 +100,38 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: rock2_0
+      name: bg1_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 2
-        width: 12
-        height: 7
+        y: 0
+        width: 250
+        height: 140
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7e6b98becc483a570800000000000000
-      internalID: 8476764939301271271
+      spriteID: 327e6810254c377e0800000000000000
+      internalID: -1768854372134492381
       vertices: []
       indices: 
       edges: []
       weights: []
     outline: []
-    physicsShape:
-    - - {x: 5, y: -2}
-      - {x: 5, y: -1}
-      - {x: 4, y: -1}
-      - {x: 4, y: 0}
-      - {x: 3, y: 0}
-      - {x: 3, y: 1}
-      - {x: 1, y: 1}
-      - {x: 1, y: 2}
-      - {x: -4, y: 2}
-      - {x: -4, y: 1}
-      - {x: -5, y: 1}
-      - {x: -5, y: -3}
-      - {x: 4, y: -3}
-      - {x: 4, y: -2}
+    physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 1537655665
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      rock2_0: 8476764939301271271
+      bg1_0: -1768854372134492381
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

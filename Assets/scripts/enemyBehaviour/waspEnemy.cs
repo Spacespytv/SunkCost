@@ -127,7 +127,7 @@ public class WaspEnemy : Enemy
             ParticleManager.Instance.PlayEffect(fireParticle, firePoint.position, bulletRotation);
             if (camShake != null)
             {
-                camShake.StartShake(fireShakeDuration, fireShakePower);
+                camShake.StartShake(hitShakeDuration, hitShakePower);
             }
         }
 

@@ -11,9 +11,16 @@ public class Enemy : MonoBehaviour
     [Header("Visuals & FX")]
     [SerializeField] protected SpriteRenderer sr;
     [SerializeField] protected string deathParticleName = "EnemyExplosion";
+    [SerializeField] protected GameObject deathLightPrefab; 
+
+    [Header("Camera Shake Settings")]
     [SerializeField] protected CameraShake camShake;
-    [SerializeField] protected float fireShakePower = 0.2f;
-    [SerializeField] protected float fireShakeDuration = 0.1f;
+    [Space]
+    [SerializeField] protected float hitShakePower = 0.1f;    
+    [SerializeField] protected float hitShakeDuration = 0.05f;
+    [Space]
+    [SerializeField] protected float deathShakePower = 0.4f;  
+    [SerializeField] protected float deathShakeDuration = 0.2f;
 
     [Header("Material Swap Flash")]
     [SerializeField] private Material redFlashMat;
@@ -72,6 +79,11 @@ public class Enemy : MonoBehaviour
     {
         health -= amount;
 
+        if (camShake != null && health > 0)
+        {
+            camShake.StartShake(hitShakeDuration, hitShakePower);
+        }
+
         if (sr != null && redFlashMat != null)
         {
             if (flashCoroutine != null) StopCoroutine(flashCoroutine);
@@ -98,7 +110,12 @@ public class Enemy : MonoBehaviour
 
         if (camShake != null)
         {
-            camShake.StartShake(fireShakeDuration, fireShakePower);
+            camShake.StartShake(deathShakeDuration, deathShakePower);
+        }
+
+        if (deathLightPrefab != null)
+        {
+            Instantiate(deathLightPrefab, transform.position, Quaternion.identity);
         }
 
         Destroy(gameObject);

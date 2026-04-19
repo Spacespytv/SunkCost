@@ -28,9 +28,9 @@ MonoBehaviour:
   m_MSAA: 1
   m_RenderScale: 1
   m_UpscalingFilter: 0
-  m_FsrOverrideSharpness: 0
-  m_FsrSharpness: 0.92
-  m_EnableLODCrossFade: 1
+  m_FsrOverrideSharpness: 1
+  m_FsrSharpness: 1
+  m_EnableLODCrossFade: 0
   m_LODCrossFadeDitheringType: 1
   m_ShEvalMode: 0
   m_LightProbeSystem: 0
@@ -39,7 +39,7 @@ MonoBehaviour:
   m_ProbeVolumeSHBands: 1
   m_MainLightRenderingMode: 1
   m_MainLightShadowsSupported: 1
-  m_MainLightShadowmapResolution: 2048
+  m_MainLightShadowmapResolution: 256
   m_AdditionalLightsRenderingMode: 1
   m_AdditionalLightsPerObjectLimit: 4
   m_AdditionalLightShadowsSupported: 0
@@ -84,7 +84,7 @@ MonoBehaviour:
   m_MaxPixelLights: 0
   m_ShadowAtlasResolution: 256
   m_VolumeFrameworkUpdateMode: 0
-  m_VolumeProfile: {fileID: 0}
+  m_VolumeProfile: {fileID: 11400000, guid: a0cab7772126f3347bcc2a6006ed396b, type: 2}
   m_Textures:
     blueNoise64LTex: {fileID: 2800000, guid: e3d24661c1e055f45a7560c033dbb837, type: 3}
     bayerMatrixTex: {fileID: 2800000, guid: f9ee4ed84c1d10c49aabb9b210b0fc44, type: 3}

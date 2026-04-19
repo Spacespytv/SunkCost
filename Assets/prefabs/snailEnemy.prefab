@@ -110,9 +110,12 @@ MonoBehaviour:
     m_Bits: 64
   sr: {fileID: 7030339751221972406}
   deathParticleName: snailExplosion
+  deathLightPrefab: {fileID: 4446386140643646723, guid: 48682c6b2a8ee2e42b60e595e4179511, type: 3}
   camShake: {fileID: 0}
-  fireShakePower: 0.2
-  fireShakeDuration: 0.1
+  hitShakePower: 0.1
+  hitShakeDuration: 0.05
+  deathShakePower: 0.4
+  deathShakeDuration: 0.2
   redFlashMat: {fileID: 2100000, guid: c7f4c8e54a412a54a8962695f965f2e5, type: 2}
   moveSpeed: 2
   leftPoint: {fileID: 0}

@@ -207,7 +207,7 @@ public class MoleEnemy : Enemy
 
             if (camShake != null)
             {
-                camShake.StartShake(fireShakeDuration, fireShakePower);
+                camShake.StartShake(hitShakeDuration, hitShakePower);
             }
         }
 
