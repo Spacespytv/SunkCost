@@ -5,12 +5,20 @@ public class EnergyCrystal : MonoBehaviour
     [Header("Flight Settings")]
     private Transform targetCog;
     private bool isFlying = false;
-    [SerializeField] float flySpeed = 5f;
-    [SerializeField] float acceleration = 25f;
+    private bool hasHit = false;
+    [SerializeField] private float flySpeed = 5f;
+    [SerializeField] private float acceleration = 25f;
 
     [Header("FX Prefabs")]
-    [SerializeField] private GameObject collectFlashPrefab; // Small flash when player touches it
+    [SerializeField] private GameObject collectFlashPrefab;
     [SerializeField] private string collectParticleName = "EnergyCollect";
+
+    [Header("Camera Shake Settings")]
+    [SerializeField] private float hitShakePower = 0.1f;    
+    [SerializeField] private float hitShakeDuration = 0.05f;
+    [Space]
+    [SerializeField] private float deathShakePower = 0.2f;
+    [SerializeField] private float deathShakeDuration = 0.1f;
 
     private Rigidbody2D rb;
     private SpriteRenderer sr;
@@ -21,29 +29,46 @@ public class EnergyCrystal : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         trail = GetComponent<TrailRenderer>();
+        Collider2D myCollider = GetComponent<Collider2D>();
 
-        // Your "Goldilocks" Pop Logic
-        float randomX = Random.Range(-0.7f, 0.7f);
-        float randomY = Random.Range(0.8f, 1.3f);
-        Vector2 randomDir = new Vector2(randomX, randomY).normalized;
-        rb.AddForce(randomDir * Random.Range(6f, 9f), ForceMode2D.Impulse);
-        rb.AddTorque(Random.Range(-20f, 20f), ForceMode2D.Impulse);
+        GameObject[] roofs = GameObject.FindGameObjectsWithTag("roof");
+        foreach (GameObject roof in roofs)
+        {
+            if (roof.TryGetComponent(out Collider2D roofCol))
+            {
+                Physics2D.IgnoreCollision(myCollider, roofCol);
+            }
+        }
 
-        // Ignore Player collision
         GameObject player = GameObject.FindWithTag("Player");
-        if (player != null) Physics2D.IgnoreCollision(GetComponent<Collider2D>(), player.GetComponent<Collider2D>());
+        if (player != null && player.TryGetComponent(out Collider2D playerCol))
+        {
+            Physics2D.IgnoreCollision(myCollider, playerCol);
+        }
+
+        float randomX = Random.Range(-1.2f, 1.2f);
+        float randomY = Random.Range(1.5f, 2.0f);
+        Vector2 randomDir = new Vector2(randomX, randomY).normalized;
+
+        rb.AddForce(randomDir * Random.Range(8f,13f), ForceMode2D.Impulse);
+        rb.AddTorque(Random.Range(-60f, 60f), ForceMode2D.Impulse);
     }
 
     public void InitiateCollection()
     {
-        if (isFlying) return;
+        if (isFlying || hasHit) return;
 
-        // FLASH 1: Spawns at the player's feet when picked up
-        if (collectFlashPrefab != null) Instantiate(collectFlashPrefab, transform.position, Quaternion.identity);
+        if (collectFlashPrefab != null)
+            Instantiate(collectFlashPrefab, transform.position, Quaternion.identity);
 
         if (GameplayManager.Instance != null && GameplayManager.Instance.elevatorCog != null)
         {
             Collect(GameplayManager.Instance.elevatorCog);
+        }
+
+        if (CameraShake.Instance != null && hitShakePower > 0)
+        {
+            CameraShake.Instance.StartShake(hitShakeDuration, hitShakePower);
         }
     }
 
@@ -51,19 +76,21 @@ public class EnergyCrystal : MonoBehaviour
     {
         targetCog = cog;
         isFlying = true;
+
         rb.bodyType = RigidbodyType2D.Kinematic;
         rb.velocity = Vector2.zero;
+        rb.angularVelocity = 0;
 
-        foreach (var col in GetComponentsInChildren<Collider2D>()) col.enabled = false;
+        foreach (var col in GetComponentsInChildren<Collider2D>())
+        {
+            col.enabled = false;
+        }
 
         if (ParticleManager.Instance != null)
         {
-            ParticleManager.Instance.PlayEffect("EnergyCollect", transform.position, Quaternion.identity);
+            ParticleManager.Instance.PlayEffect(collectParticleName, transform.position, Quaternion.identity);
         }
-
     }
-
-    private bool hasHit = false; 
 
     void Update()
     {
@@ -72,7 +99,7 @@ public class EnergyCrystal : MonoBehaviour
             flySpeed += acceleration * Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, targetCog.position, flySpeed * Time.deltaTime);
 
-            if (Vector3.Distance(transform.position, targetCog.position) < 0.15f) 
+            if (Vector3.Distance(transform.position, targetCog.position) < 0.15f)
             {
                 OnHitCog();
             }
@@ -81,26 +108,21 @@ public class EnergyCrystal : MonoBehaviour
 
     private void OnHitCog()
     {
-        if (hasHit) return; 
-        hasHit = true;   
+        if (hasHit) return;
+        hasHit = true;
 
-        // 1. Tell Cog to rotate and flash
         if (targetCog.TryGetComponent(out ElevatorCog cogScript))
         {
             cogScript.AddEnergy();
         }
 
-        // 2. Shut down everything else
-        rb.velocity = Vector2.zero;
-        rb.bodyType = RigidbodyType2D.Kinematic;
-
-        foreach (var col in GetComponentsInChildren<Collider2D>())
+        if (CameraShake.Instance != null && deathShakePower > 0)
         {
-            col.enabled = false;
+            CameraShake.Instance.StartShake(deathShakeDuration, deathShakePower);
         }
 
-        // 3. Visual cleanup
         sr.enabled = false;
+
         var light = GetComponentInChildren<UnityEngine.Rendering.Universal.Light2D>();
         if (light != null) light.enabled = false;
 

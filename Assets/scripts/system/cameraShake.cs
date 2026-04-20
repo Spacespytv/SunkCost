@@ -2,12 +2,22 @@ using UnityEngine;
 
 public class CameraShake : MonoBehaviour
 {
+    // Static instance so any script can call CameraShake.Instance.StartShake()
+    public static CameraShake Instance;
+
     private Vector3 homePosition;
     private float shakeTimeRemaining;
     private float shakePower;
     private float shakeFadeTime;
 
     [SerializeField] private float rotationMultiplier = 5f;
+
+    void Awake()
+    {
+        // Setup Singleton
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+    }
 
     void Start()
     {
@@ -31,6 +41,7 @@ public class CameraShake : MonoBehaviour
         }
         else
         {
+            // Reset to perfectly still when done
             transform.localPosition = homePosition;
             transform.localRotation = Quaternion.identity;
         }
@@ -38,8 +49,14 @@ public class CameraShake : MonoBehaviour
 
     public void StartShake(float duration, float power)
     {
+        if (power < shakePower && shakeTimeRemaining > 0)
+        {
+            return;
+        }
+
         shakeTimeRemaining = duration;
         shakePower = power;
-        shakeFadeTime = power / duration;
+
+        shakeFadeTime = duration > 0 ? (power / duration) : 0f;
     }
 }

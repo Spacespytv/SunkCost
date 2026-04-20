@@ -8,13 +8,14 @@ public class ElevatorCog : MonoBehaviour
     [SerializeField] private float rotationLerpSpeed = 5f;
 
     [Header("Juice & FX")]
-    [SerializeField] private SpriteRenderer flashSprite; // Drag the White Sprite child here
-    [SerializeField] private float flashDuration = 0.05f; // Very short for that "snap"
+    [SerializeField] private SpriteRenderer flashSprite;
+    [SerializeField] private float fadeSpeed = 5f; 
     [SerializeField] private float scalePulseAmount = 1.3f;
     [SerializeField] private float scaleReturnSpeed = 4f;
 
     private float targetZRotation;
     private Vector3 originalScale;
+    private Coroutine fadeCoroutine;
 
     void Start()
     {
@@ -23,7 +24,10 @@ public class ElevatorCog : MonoBehaviour
 
         if (flashSprite != null)
         {
-            flashSprite.enabled = false;
+            Color c = flashSprite.color;
+            c.a = 0;
+            flashSprite.color = c;
+            flashSprite.enabled = true; 
         }
     }
 
@@ -31,6 +35,7 @@ public class ElevatorCog : MonoBehaviour
     {
         float currentZ = Mathf.LerpAngle(transform.eulerAngles.z, targetZRotation, Time.deltaTime * rotationLerpSpeed);
         transform.eulerAngles = new Vector3(0, 0, currentZ);
+
         transform.localScale = Vector3.MoveTowards(transform.localScale, originalScale, Time.deltaTime * scaleReturnSpeed);
     }
 
@@ -41,13 +46,8 @@ public class ElevatorCog : MonoBehaviour
 
         if (flashSprite != null)
         {
-            StopCoroutine("FlashWhite");
-            StartCoroutine("FlashWhite");
-        }
-
-        if (ParticleManager.Instance != null)
-        {
-            ParticleManager.Instance.PlayEffect("CogImpact", transform.position, Quaternion.identity);
+            if (fadeCoroutine != null) StopCoroutine(fadeCoroutine);
+            fadeCoroutine = StartCoroutine(FadeFlash());
         }
 
         if (GameplayManager.Instance != null)
@@ -56,10 +56,20 @@ public class ElevatorCog : MonoBehaviour
         }
     }
 
-    private IEnumerator FlashWhite()
+    private IEnumerator FadeFlash()
     {
-        flashSprite.enabled = true;
-        yield return new WaitForSeconds(flashDuration);
-        flashSprite.enabled = false;
+        Color c = flashSprite.color;
+        c.a = 1f;
+        flashSprite.color = c;
+
+        while (c.a > 0)
+        {
+            c.a -= Time.deltaTime * fadeSpeed;
+            flashSprite.color = c;
+            yield return null; 
+        }
+
+        c.a = 0;
+        flashSprite.color = c;
     }
 }
