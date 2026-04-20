@@ -117,6 +117,9 @@ MonoBehaviour:
   deathShakePower: 0.4
   deathShakeDuration: 0.2
   redFlashMat: {fileID: 2100000, guid: c7f4c8e54a412a54a8962695f965f2e5, type: 2}
+  energyPrefab: {fileID: 8036864024073387628, guid: b4546785728927141b4640ded398f106, type: 3}
+  energyDropAmount: 2
+  dropSpread: 0.5
   moveSpeed: 2
   leftPoint: {fileID: 0}
   rightPoint: {fileID: 0}

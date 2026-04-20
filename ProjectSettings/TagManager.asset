@@ -15,7 +15,7 @@ TagManager:
   - Player
   - Bullet
   - Enemy
-  - 
+  - Crystal
   - 
   - 
   - 
@@ -50,6 +50,9 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Collectable
+    uniqueID: 2681698415
     locked: 0
   - name: Particles
     uniqueID: 235477653

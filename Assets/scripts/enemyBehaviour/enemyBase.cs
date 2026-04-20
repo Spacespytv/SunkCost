@@ -27,6 +27,10 @@ public class Enemy : MonoBehaviour
     private Material originalMat;
     private Coroutine flashCoroutine;
 
+    [Header("Drops")]
+    [SerializeField] GameObject energyPrefab;
+    [SerializeField] protected int energyDropAmount = 1; 
+    [SerializeField] protected float dropSpread = 0.5f;   
     protected BoxCollider2D hurtbox;
 
     protected virtual void Start()
@@ -116,6 +120,20 @@ public class Enemy : MonoBehaviour
         if (deathLightPrefab != null)
         {
             Instantiate(deathLightPrefab, transform.position, Quaternion.identity);
+        }
+
+        if (energyPrefab != null)
+        {
+            for (int i = 0; i < energyDropAmount; i++)
+            {
+                Vector3 spawnOffset = new Vector3(
+                    Random.Range(-dropSpread, dropSpread),
+                    Random.Range(-dropSpread, dropSpread),
+                    0
+                );
+
+                Instantiate(energyPrefab, transform.position + spawnOffset, Quaternion.identity);
+            }
         }
 
         Destroy(gameObject);
