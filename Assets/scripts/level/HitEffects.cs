@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal; // For URP
+using UnityEngine.Rendering.Universal;
 using System.Collections;
 
 public class HitEffects : MonoBehaviour
@@ -17,7 +17,7 @@ public class HitEffects : MonoBehaviour
 
     void Awake()
     {
-        if (globalVolume.profile.TryGet(out aberration))
+        if (globalVolume != null && globalVolume.profile.TryGet(out aberration))
         {
             aberration.intensity.value = defaultAberration;
         }
@@ -25,7 +25,7 @@ public class HitEffects : MonoBehaviour
 
     public void PlayHitFX()
     {
-        StopAllCoroutines(); 
+        StopAllCoroutines();
         StartCoroutine(HitFXRoutine());
     }
 
@@ -59,7 +59,55 @@ public class HitEffects : MonoBehaviour
                 c.a = Mathf.Lerp(flashAlpha, 0, t);
                 hitFlashImage.color = c;
             }
+            yield return null;
+        }
 
+        if (aberration != null) aberration.intensity.value = defaultAberration;
+    }
+
+    public void SetDeathPinch()
+    {
+        if (aberration != null) aberration.intensity.value = 1.8f;
+
+        if (hitFlashImage != null)
+        {
+            Color c = hitFlashImage.color;
+            c.a = 0.2f; 
+            hitFlashImage.color = c;
+        }
+    }
+
+    public IEnumerator DeathFlashRoutine()
+    {
+        if (aberration != null) aberration.intensity.value = 2.0f;
+
+        if (hitFlashImage != null)
+        {
+            Color c = hitFlashImage.color;
+            c.a = 0.5f; 
+            hitFlashImage.color = c;
+        }
+
+        yield return new WaitForSeconds(0.05f);
+
+        float elapsed = 0;
+        float duration = 1.5f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+
+            float t = 1 - Mathf.Pow(2, -10 * (elapsed / duration));
+
+            if (aberration != null)
+                aberration.intensity.value = Mathf.Lerp(2.0f, defaultAberration, t);
+
+            if (hitFlashImage != null)
+            {
+                Color c = hitFlashImage.color;
+                c.a = Mathf.Lerp(0.5f, 0, t);
+                hitFlashImage.color = c;
+            }
             yield return null;
         }
 

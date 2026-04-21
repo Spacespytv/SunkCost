@@ -265,6 +265,7 @@ Transform:
   - {fileID: 2419372759998249703}
   - {fileID: 7090307303034842188}
   - {fileID: 869076930397848709}
+  - {fileID: 7681783768567551569}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &523061978984773175
@@ -544,17 +545,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c84f94e5870bda54fa17fc32039e3358, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  invincibilityDuration: 1.5
-  blinkRate: 0.05
+  maxHealth: 1
   playerSR: {fileID: 5489223366401502676}
   flashColor: {r: 0.7058824, g: 0.32156864, b: 0.32156864, a: 1}
-  hitShakePower: 0.2
-  hitShakeDuration: 0.1
-  deathShakePower: 0.4
-  deathShakeDuration: 0.2
-  hitStopDuration: 0.1
+  gunObject: {fileID: 3262425095254964285}
+  hatTorchLight: {fileID: 933528666191953676}
   healthUI: {fileID: 0}
+  hitFX: {fileID: 0}
+  supernovaLight: {fileID: 5878006105467262345}
+  collectParticleName: deathParticle
+  hitStopDuration: 0.1
+  invincibilityDuration: 1.5
+  blinkRate: 0.05
+  deathFreezeDuration: 0.5
+  deathShakePower: 1
+  lightFlashIntensity: 25
 --- !u!1 &4840457424288586692
 GameObject:
   m_ObjectHideFlags: 0
@@ -806,3 +811,104 @@ Transform:
   m_Children: []
   m_Father: {fileID: 134417036034190572}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &4824042873319967780
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2376864452847374496}
+    m_Modifications:
+    - target: {fileID: 1396307233239325101, guid: f925fc2c9b8208244954d3d4007f8651, type: 3}
+      propertyPath: m_Color.b
+      value: 0.32156864
+      objectReference: {fileID: 0}
+    - target: {fileID: 1396307233239325101, guid: f925fc2c9b8208244954d3d4007f8651, type: 3}
+      propertyPath: m_Color.g
+      value: 0.32156864
+      objectReference: {fileID: 0}
+    - target: {fileID: 1396307233239325101, guid: f925fc2c9b8208244954d3d4007f8651, type: 3}
+      propertyPath: m_Color.r
+      value: 0.7058824
+      objectReference: {fileID: 0}
+    - target: {fileID: 1396307233239325101, guid: f925fc2c9b8208244954d3d4007f8651, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1396307233239325101, guid: f925fc2c9b8208244954d3d4007f8651, type: 3}
+      propertyPath: m_Intensity
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2911960665510468213, guid: f925fc2c9b8208244954d3d4007f8651, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2911960665510468213, guid: f925fc2c9b8208244954d3d4007f8651, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2911960665510468213, guid: f925fc2c9b8208244954d3d4007f8651, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2911960665510468213, guid: f925fc2c9b8208244954d3d4007f8651, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2911960665510468213, guid: f925fc2c9b8208244954d3d4007f8651, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2911960665510468213, guid: f925fc2c9b8208244954d3d4007f8651, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2911960665510468213, guid: f925fc2c9b8208244954d3d4007f8651, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2911960665510468213, guid: f925fc2c9b8208244954d3d4007f8651, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2911960665510468213, guid: f925fc2c9b8208244954d3d4007f8651, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2911960665510468213, guid: f925fc2c9b8208244954d3d4007f8651, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2911960665510468213, guid: f925fc2c9b8208244954d3d4007f8651, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2911960665510468213, guid: f925fc2c9b8208244954d3d4007f8651, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446386140643646723, guid: f925fc2c9b8208244954d3d4007f8651, type: 3}
+      propertyPath: m_Name
+      value: SupernovaLight
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f925fc2c9b8208244954d3d4007f8651, type: 3}
+--- !u!114 &5878006105467262345 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1396307233239325101, guid: f925fc2c9b8208244954d3d4007f8651, type: 3}
+  m_PrefabInstance: {fileID: 4824042873319967780}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &7681783768567551569 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2911960665510468213, guid: f925fc2c9b8208244954d3d4007f8651, type: 3}
+  m_PrefabInstance: {fileID: 4824042873319967780}
+  m_PrefabAsset: {fileID: 0}

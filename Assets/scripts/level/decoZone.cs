@@ -6,13 +6,11 @@ public class DecoZone : MonoBehaviour
     public ZoneOrientation orientation;
 
     [Header("Mid Settings")]
-    [Tooltip("If orientation is Mid, check this to spawn vertically (between walls) instead of horizontally.")]
     [SerializeField] private bool midIsVertical = false;
 
     [Header("General Settings")]
     [Range(0, 50)][SerializeField] private int minDeco = 5;
     [Range(0, 50)][SerializeField] private int maxDeco = 10;
-    [Tooltip("Distance between spawn points. Ensure the collider is large enough to fit these slots!")]
     [SerializeField] private float spacing = 1.5f;
 
     private BoxCollider2D zoneCollider;
@@ -22,7 +20,6 @@ public class DecoZone : MonoBehaviour
         zoneCollider = GetComponent<BoxCollider2D>();
         if (zoneCollider == null)
         {
-            Debug.LogError($"{gameObject.name} needs a BoxCollider2D to spawn decorations!");
             return;
         }
 

@@ -103,4 +103,11 @@ public class HealthUIFeedback : MonoBehaviour
 
         if (healthBarGhost != null) healthBarGhost.fillAmount = targetPercent;
     }
+
+    public IEnumerator ForceDismiss()
+    {
+        if (moveRoutine != null) StopCoroutine(moveRoutine);
+        yield return MoveProcess(hiddenY, fallDuration, fallCurve);
+        healthGroup.gameObject.SetActive(false);
+    }
 }
