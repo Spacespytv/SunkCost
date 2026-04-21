@@ -1,0 +1,364 @@
+fileFormatVersion: 2
+guid: e204cd080c46a4a4d8de3bad4453cea0
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -4049434436501499516
+    second: SunkCostLogo_0
+  - first:
+      213: -756282643577534479
+    second: SunkCostLogo_1
+  - first:
+      213: 4211476141805574402
+    second: SunkCostLogo_2
+  - first:
+      213: -4955284269382989125
+    second: SunkCostLogo_3
+  - first:
+      213: 4281791860087045960
+    second: SunkCostLogo_4
+  - first:
+      213: 3166606661790406411
+    second: SunkCostLogo_5
+  - first:
+      213: -2423155058304552127
+    second: SunkCostLogo_6
+  - first:
+      213: -3360452648994745117
+    second: SunkCostLogo_7
+  - first:
+      213: 447634673868223138
+    second: SunkCostLogo_8
+  - first:
+      213: 1958178493850528088
+    second: SunkCostLogo_9
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: SunkCostLogo_0
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 2023
+        width: 313
+        height: 958
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4811817b5d48dc7c0800000000000000
+      internalID: -4049434436501499516
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunkCostLogo_1
+      rect:
+        serializedVersion: 2
+        x: 387
+        y: 2043
+        width: 716
+        height: 905
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f784cf41f42185f0800000000000000
+      internalID: -756282643577534479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunkCostLogo_2
+      rect:
+        serializedVersion: 2
+        x: 1169
+        y: 2042
+        width: 715
+        height: 897
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2099a54dc3b227a30800000000000000
+      internalID: 4211476141805574402
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunkCostLogo_3
+      rect:
+        serializedVersion: 2
+        x: 1991
+        y: 2050
+        width: 776
+        height: 891
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bba8852163b4b3bb0800000000000000
+      internalID: -4955284269382989125
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunkCostLogo_4
+      rect:
+        serializedVersion: 2
+        x: 2882
+        y: 2053
+        width: 765
+        height: 886
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84fb5a6c20bfb6b30800000000000000
+      internalID: 4281791860087045960
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunkCostLogo_5
+      rect:
+        serializedVersion: 2
+        x: 3646
+        y: 2023
+        width: 312
+        height: 958
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b0717634bfb02fb20800000000000000
+      internalID: 3166606661790406411
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunkCostLogo_6
+      rect:
+        serializedVersion: 2
+        x: 380
+        y: 1001
+        width: 875
+        height: 909
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 143f01a10593f5ed0800000000000000
+      internalID: -2423155058304552127
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunkCostLogo_7
+      rect:
+        serializedVersion: 2
+        x: 1306
+        y: 1000
+        width: 900
+        height: 897
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e4d524ce164d51d0800000000000000
+      internalID: -3360452648994745117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunkCostLogo_8
+      rect:
+        serializedVersion: 2
+        x: 2249
+        y: 1002
+        width: 713
+        height: 907
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a2301d3d51563600800000000000000
+      internalID: 447634673868223138
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SunkCostLogo_9
+      rect:
+        serializedVersion: 2
+        x: 2942
+        y: 1015
+        width: 676
+        height: 884
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 85925cc17f8dc2b10800000000000000
+      internalID: 1958178493850528088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      SunkCostLogo_0: -4049434436501499516
+      SunkCostLogo_1: -756282643577534479
+      SunkCostLogo_2: 4211476141805574402
+      SunkCostLogo_3: -4955284269382989125
+      SunkCostLogo_4: 4281791860087045960
+      SunkCostLogo_5: 3166606661790406411
+      SunkCostLogo_6: -2423155058304552127
+      SunkCostLogo_7: -3360452648994745117
+      SunkCostLogo_8: 447634673868223138
+      SunkCostLogo_9: 1958178493850528088
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

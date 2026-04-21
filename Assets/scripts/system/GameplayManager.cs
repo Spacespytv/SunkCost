@@ -37,7 +37,7 @@ public class GameplayManager : MonoBehaviour
     {
         if (layerText != null)
         {
-            layerText.text = "Layer " + currentLayer;
+            layerText.text = "LAYER " + currentLayer;
         }
     }
 

@@ -14,6 +14,8 @@ public class PlayerHealth : MonoBehaviour
 
     [SerializeField] private SpriteRenderer playerSR;
 
+    [Header("UI Reference")]
+    [SerializeField] private HealthUIFeedback healthUI; 
     void Start()
     {
         currentHealth = maxHealth;
@@ -25,7 +27,12 @@ public class PlayerHealth : MonoBehaviour
         if (isInvincible) return;
 
         currentHealth -= damage;
-        Debug.Log("Player Health: " + currentHealth);
+
+        if (healthUI != null)
+        {
+            float healthPercent = currentHealth / maxHealth;
+            healthUI.TriggerHit(healthPercent);
+        }
 
         if (currentHealth <= 0)
         {
