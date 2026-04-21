@@ -548,6 +548,12 @@ MonoBehaviour:
   invincibilityDuration: 1.5
   blinkRate: 0.05
   playerSR: {fileID: 5489223366401502676}
+  flashColor: {r: 0.7058824, g: 0.32156864, b: 0.32156864, a: 1}
+  hitShakePower: 0.2
+  hitShakeDuration: 0.1
+  deathShakePower: 0.4
+  deathShakeDuration: 0.2
+  hitStopDuration: 0.1
   healthUI: {fileID: 0}
 --- !u!1 &4840457424288586692
 GameObject:

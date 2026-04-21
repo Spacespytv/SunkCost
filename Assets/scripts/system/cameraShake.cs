@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class CameraShake : MonoBehaviour
 {
-    // Static instance so any script can call CameraShake.Instance.StartShake()
     public static CameraShake Instance;
 
     private Vector3 homePosition;
@@ -14,7 +13,6 @@ public class CameraShake : MonoBehaviour
 
     void Awake()
     {
-        // Setup Singleton
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
     }
@@ -41,7 +39,6 @@ public class CameraShake : MonoBehaviour
         }
         else
         {
-            // Reset to perfectly still when done
             transform.localPosition = homePosition;
             transform.localRotation = Quaternion.identity;
         }
