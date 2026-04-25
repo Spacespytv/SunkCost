@@ -38,12 +38,14 @@ public class PlayerHealth : MonoBehaviour
 
     private Rigidbody2D rb;
     private playerMovement movementScript;
+    private BoxCollider2D[] allColliders; // Reference to disable physics
 
     void Start()
     {
         currentHealth = maxHealth;
         rb = GetComponent<Rigidbody2D>();
         movementScript = GetComponent<playerMovement>();
+        allColliders = GetComponents<BoxCollider2D>(); // Grab all box colliders on the player
 
         if (playerSR == null) playerSR = GetComponentInChildren<SpriteRenderer>();
         if (playerSR != null) originalColor = playerSR.color;
@@ -76,11 +78,19 @@ public class PlayerHealth : MonoBehaviour
         if (isDead) return;
         isDead = true;
 
+        // Disable movement and physics interactions
         if (movementScript != null) movementScript.enabled = false;
+
         if (rb != null)
         {
             rb.velocity = Vector2.zero;
             rb.isKinematic = true;
+        }
+
+        // Disable all BoxColliders so enemies/bullets pass through the "corpse"
+        foreach (BoxCollider2D col in allColliders)
+        {
+            col.enabled = false;
         }
 
         StartCoroutine(DeathSequence());
@@ -91,7 +101,7 @@ public class PlayerHealth : MonoBehaviour
         if (healthUI != null) healthUI.TriggerHit(0);
         if (hitFX != null) hitFX.SetDeathPinch();
 
-        if (gunObject != null) gunObject.SetActive(false);
+        // Turn off equipment immediately for the freeze
         if (hatTorchLight != null) hatTorchLight.SetActive(false);
 
         Time.timeScale = 0f;
@@ -102,6 +112,7 @@ public class PlayerHealth : MonoBehaviour
 
         Time.timeScale = 1f;
 
+        // Trigger visuals and particles
         if (hitFX != null) StartCoroutine(hitFX.DeathFlashRoutine());
         if (supernovaLight != null) StartCoroutine(LightFlashRoutine());
 
@@ -110,7 +121,10 @@ public class PlayerHealth : MonoBehaviour
             ParticleManager.Instance.PlayEffect(deadParticleName, transform.position, Quaternion.identity);
         }
 
+        // PERMANENT REMOVAL: Destroy the gun and hide the player
+        if (gunObject != null) Destroy(gunObject);
         if (playerSR != null) playerSR.enabled = false;
+
         if (healthUI != null) StartCoroutine(healthUI.ForceDismiss());
 
         if (CameraShake.Instance != null)

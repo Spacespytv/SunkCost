@@ -545,15 +545,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c84f94e5870bda54fa17fc32039e3358, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 1
+  maxHealth: 100
   playerSR: {fileID: 5489223366401502676}
   flashColor: {r: 0.7058824, g: 0.32156864, b: 0.32156864, a: 1}
-  gunObject: {fileID: 3262425095254964285}
+  gunObject: {fileID: 4840457424288586692}
   hatTorchLight: {fileID: 933528666191953676}
   healthUI: {fileID: 0}
   hitFX: {fileID: 0}
   supernovaLight: {fileID: 5878006105467262345}
-  collectParticleName: deathParticle
+  deadParticleName: deathParticle
   hitStopDuration: 0.1
   invincibilityDuration: 1.5
   blinkRate: 0.05
@@ -821,15 +821,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1396307233239325101, guid: f925fc2c9b8208244954d3d4007f8651, type: 3}
       propertyPath: m_Color.b
-      value: 0.32156864
+      value: 0.8980393
       objectReference: {fileID: 0}
     - target: {fileID: 1396307233239325101, guid: f925fc2c9b8208244954d3d4007f8651, type: 3}
       propertyPath: m_Color.g
-      value: 0.32156864
+      value: 0.94117653
       objectReference: {fileID: 0}
     - target: {fileID: 1396307233239325101, guid: f925fc2c9b8208244954d3d4007f8651, type: 3}
       propertyPath: m_Color.r
-      value: 0.7058824
+      value: 0.9490197
       objectReference: {fileID: 0}
     - target: {fileID: 1396307233239325101, guid: f925fc2c9b8208244954d3d4007f8651, type: 3}
       propertyPath: m_Enabled
