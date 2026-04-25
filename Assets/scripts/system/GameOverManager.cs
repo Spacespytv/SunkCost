@@ -16,10 +16,10 @@ public class GameOverManager : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private float targetDimAlpha = 0.8f;
-    [SerializeField] private float fadeDuration = 1.0f;
+    [SerializeField] private float fadeDuration = 1.0f; // Added this back!
     [SerializeField] private Vector2 chalkboardStartPos = new Vector2(0, 1200);
     [SerializeField] private Vector2 chalkboardEndPos = new Vector2(0, 0);
-    [SerializeField] private float slideDuration = 1.0f;
+    [SerializeField] private float slideDuration = 0.8f;
 
     private bool canRestart = false;
 
@@ -29,64 +29,53 @@ public class GameOverManager : MonoBehaviour
         if (chalkboard != null) chalkboard.anchoredPosition = chalkboardStartPos;
     }
 
-    void Update()
-    {
-        if (canRestart && Input.GetButtonDown("Jump"))
-        {
-            RestartLevel();
-        }
-    }
-
     public void TriggerGameOver()
     {
+        // Stop any competing hit flash routines
         HitEffects hitFX = FindFirstObjectByType<HitEffects>();
         if (hitFX != null) hitFX.StopAllCoroutines();
 
-        int finalLayer = 1;
-        if (GameplayManager.Instance != null)
-        {
-            finalLayer = GameplayManager.Instance.currentLayer;
-        }
-
+        int finalLayer = (GameplayManager.Instance != null) ? GameplayManager.Instance.currentLayer : 1;
         StartCoroutine(GameOverRoutine(finalLayer));
     }
 
     private IEnumerator GameOverRoutine(int layerReached)
     {
+        // 1. FADE THE HITFLASH TO DIM BLACK
         if (hitFlashImage != null)
         {
-            float currentAlpha = hitFlashImage.color.a;
-            hitFlashImage.color = new Color(0, 0, 0, currentAlpha);
-        }
+            hitFlashImage.gameObject.SetActive(true);
 
-        foreach (GameObject ui in uiToHide)
-        {
-            if (ui != null) ui.SetActive(false);
-        }
-
-        if (hitFlashImage != null)
-        {
             float elapsed = 0;
             float startAlpha = hitFlashImage.color.a;
 
             while (elapsed < fadeDuration)
             {
-                elapsed += Time.deltaTime;
-                float newAlpha = Mathf.Lerp(startAlpha, targetDimAlpha, elapsed / fadeDuration);
-                hitFlashImage.color = new Color(0, 0, 0, newAlpha);
+                // Use unscaledDeltaTime because Time.timeScale is likely 0
+                elapsed += Time.unscaledDeltaTime;
+                float currentAlpha = Mathf.Lerp(startAlpha, targetDimAlpha, elapsed / fadeDuration);
+
+                hitFlashImage.color = new Color(0, 0, 0, currentAlpha);
                 yield return null;
             }
+            hitFlashImage.color = new Color(0, 0, 0, targetDimAlpha);
         }
 
-        if (chalkboardLayerText != null)
-            chalkboardLayerText.text = "LAYER: " + layerReached;
+        // 2. HIDE THE UI
+        foreach (GameObject ui in uiToHide)
+        {
+            if (ui != null) ui.SetActive(false);
+        }
+
+        // 3. SLIDE THE CHALKBOARD
+        if (chalkboardLayerText != null) chalkboardLayerText.text = "LAYER: " + layerReached;
 
         float slideElapsed = 0;
         while (slideElapsed < slideDuration)
         {
-            slideElapsed += Time.deltaTime;
-            float t = slideElapsed / slideDuration;
-            t = t * t * (3f - 2f * t);
+            slideElapsed += Time.unscaledDeltaTime;
+            float t = Mathf.Clamp01(slideElapsed / slideDuration);
+            t = t * t * (3f - 2f * t); // SmoothStep
 
             chalkboard.anchoredPosition = Vector2.Lerp(chalkboardStartPos, chalkboardEndPos, t);
             yield return null;
@@ -97,6 +86,9 @@ public class GameOverManager : MonoBehaviour
 
     public void RestartLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        if (canRestart)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 }
