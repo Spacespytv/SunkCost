@@ -38,7 +38,7 @@ public class PlayerHealth : MonoBehaviour
 
     private Rigidbody2D rb;
     private playerMovement movementScript;
-    private BoxCollider2D[] allColliders; // Reference to disable physics
+    private BoxCollider2D[] allColliders;
 
     void Start()
     {
@@ -78,7 +78,6 @@ public class PlayerHealth : MonoBehaviour
         if (isDead) return;
         isDead = true;
 
-        // Disable movement and physics interactions
         if (movementScript != null) movementScript.enabled = false;
 
         if (rb != null)
@@ -87,7 +86,6 @@ public class PlayerHealth : MonoBehaviour
             rb.isKinematic = true;
         }
 
-        // Disable all BoxColliders so enemies/bullets pass through the "corpse"
         foreach (BoxCollider2D col in allColliders)
         {
             col.enabled = false;
@@ -101,7 +99,6 @@ public class PlayerHealth : MonoBehaviour
         if (healthUI != null) healthUI.TriggerHit(0);
         if (hitFX != null) hitFX.SetDeathPinch();
 
-        // Turn off equipment immediately for the freeze
         if (hatTorchLight != null) hatTorchLight.SetActive(false);
 
         Time.timeScale = 0f;
@@ -112,7 +109,6 @@ public class PlayerHealth : MonoBehaviour
 
         Time.timeScale = 1f;
 
-        // Trigger visuals and particles
         if (hitFX != null) StartCoroutine(hitFX.DeathFlashRoutine());
         if (supernovaLight != null) StartCoroutine(LightFlashRoutine());
 
@@ -121,7 +117,6 @@ public class PlayerHealth : MonoBehaviour
             ParticleManager.Instance.PlayEffect(deadParticleName, transform.position, Quaternion.identity);
         }
 
-        // PERMANENT REMOVAL: Destroy the gun and hide the player
         if (gunObject != null) Destroy(gunObject);
         if (playerSR != null) playerSR.enabled = false;
 
@@ -130,8 +125,13 @@ public class PlayerHealth : MonoBehaviour
         if (CameraShake.Instance != null)
             CameraShake.Instance.StartShake(1.5f, 0.5f);
 
-        yield return new WaitForSeconds(2.0f);
-        Debug.Log("Death Sequence Complete. Ready for Game Over Menu.");
+        yield return new WaitForSeconds(1.0f);
+
+        if (GameOverManager.Instance != null)
+        {
+            GameOverManager.Instance.TriggerGameOver();
+        }
+
     }
 
     private IEnumerator LightFlashRoutine()
