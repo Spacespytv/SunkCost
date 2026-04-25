@@ -125,7 +125,7 @@ public class PlayerHealth : MonoBehaviour
         if (CameraShake.Instance != null)
             CameraShake.Instance.StartShake(1.5f, 0.5f);
 
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.8f);
 
         if (GameOverManager.Instance != null)
         {

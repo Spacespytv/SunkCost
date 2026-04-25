@@ -2,56 +2,62 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-public class ScreenFader : MonoBehaviour
+public class SceneFader : MonoBehaviour
 {
-    public static ScreenFader Instance;
+    [Header("Fade Settings")]
+    [SerializeField] private float fadeInDuration = 1.0f;
+    [SerializeField] private float fadeOutDuration = 0.5f; 
+    [SerializeField] private float initialDelay = 0.3f;
 
-    private CanvasGroup canvasGroup;
     private Image fadeImage;
 
     void Awake()
     {
-        Instance = this;
         fadeImage = GetComponent<Image>();
-
-        canvasGroup = GetComponent<CanvasGroup>();
-        if (canvasGroup == null) canvasGroup = gameObject.AddComponent<CanvasGroup>();
-
-        canvasGroup.alpha = 1f;
-        canvasGroup.blocksRaycasts = true;
-        fadeImage.color = Color.black;
+        if (fadeImage != null)
+        {
+            fadeImage.gameObject.SetActive(true);
+            fadeImage.color = new Color(0, 0, 0, 1f);
+        }
     }
 
     void Start()
     {
-        StartCoroutine(FadeRoutine(0f, 1.0f));
+        StartCoroutine(FadeInRoutine());
     }
 
-    public void FadeToBlack(float duration) => StartFade(1f, duration);
-    public void FadeToDim(float targetAlpha, float duration) => StartFade(targetAlpha, duration);
-
-    private void StartFade(float targetAlpha, float duration)
+    private IEnumerator FadeInRoutine()
     {
-        StopAllCoroutines();
-        StartCoroutine(FadeRoutine(targetAlpha, duration));
-    }
-
-    private IEnumerator FadeRoutine(float targetAlpha, float duration)
-    {
-        canvasGroup.blocksRaycasts = targetAlpha > 0;
+        yield return new WaitForSeconds(initialDelay);
 
         float elapsed = 0;
-        float startAlpha = canvasGroup.alpha;
-
-        while (elapsed < duration)
+        while (elapsed < fadeInDuration)
         {
             elapsed += Time.deltaTime;
-            canvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, elapsed / duration);
+            float alpha = Mathf.Lerp(1f, 0f, elapsed / fadeInDuration);
+            if (fadeImage != null) fadeImage.color = new Color(0, 0, 0, alpha);
             yield return null;
         }
 
-        canvasGroup.alpha = targetAlpha;
+        gameObject.SetActive(false);
+    }
 
-        if (targetAlpha <= 0) canvasGroup.blocksRaycasts = false;
+    public void FadeOut()
+    {
+        gameObject.SetActive(true);
+        StartCoroutine(FadeOutRoutine());
+    }
+
+    private IEnumerator FadeOutRoutine()
+    {
+        float elapsed = 0;
+        while (elapsed < fadeOutDuration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float alpha = Mathf.Lerp(0f, 1f, elapsed / fadeOutDuration);
+            if (fadeImage != null) fadeImage.color = new Color(0, 0, 0, alpha);
+            yield return null;
+        }
+        if (fadeImage != null) fadeImage.color = new Color(0, 0, 0, 1f);
     }
 }

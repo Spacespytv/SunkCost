@@ -16,10 +16,12 @@ public class GameOverManager : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private float targetDimAlpha = 0.8f;
-    [SerializeField] private float fadeDuration = 1.0f; // Added this back!
+    [SerializeField] private float fadeDuration = 1.0f;
     [SerializeField] private Vector2 chalkboardStartPos = new Vector2(0, 1200);
     [SerializeField] private Vector2 chalkboardEndPos = new Vector2(0, 0);
     [SerializeField] private float slideDuration = 0.8f;
+
+    [SerializeField] private SceneFader sceneFaderObject;
 
     private bool canRestart = false;
 
@@ -31,7 +33,6 @@ public class GameOverManager : MonoBehaviour
 
     public void TriggerGameOver()
     {
-        // Stop any competing hit flash routines
         HitEffects hitFX = FindFirstObjectByType<HitEffects>();
         if (hitFX != null) hitFX.StopAllCoroutines();
 
@@ -41,7 +42,6 @@ public class GameOverManager : MonoBehaviour
 
     private IEnumerator GameOverRoutine(int layerReached)
     {
-        // 1. FADE THE HITFLASH TO DIM BLACK
         if (hitFlashImage != null)
         {
             hitFlashImage.gameObject.SetActive(true);
@@ -51,7 +51,6 @@ public class GameOverManager : MonoBehaviour
 
             while (elapsed < fadeDuration)
             {
-                // Use unscaledDeltaTime because Time.timeScale is likely 0
                 elapsed += Time.unscaledDeltaTime;
                 float currentAlpha = Mathf.Lerp(startAlpha, targetDimAlpha, elapsed / fadeDuration);
 
@@ -61,13 +60,11 @@ public class GameOverManager : MonoBehaviour
             hitFlashImage.color = new Color(0, 0, 0, targetDimAlpha);
         }
 
-        // 2. HIDE THE UI
         foreach (GameObject ui in uiToHide)
         {
             if (ui != null) ui.SetActive(false);
         }
 
-        // 3. SLIDE THE CHALKBOARD
         if (chalkboardLayerText != null) chalkboardLayerText.text = "LAYER: " + layerReached;
 
         float slideElapsed = 0;
@@ -75,8 +72,7 @@ public class GameOverManager : MonoBehaviour
         {
             slideElapsed += Time.unscaledDeltaTime;
             float t = Mathf.Clamp01(slideElapsed / slideDuration);
-            t = t * t * (3f - 2f * t); // SmoothStep
-
+            t = t * t * (3f - 2f * t);
             chalkboard.anchoredPosition = Vector2.Lerp(chalkboardStartPos, chalkboardEndPos, t);
             yield return null;
         }
@@ -88,7 +84,21 @@ public class GameOverManager : MonoBehaviour
     {
         if (canRestart)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            canRestart = false;
+            StartCoroutine(FadeAndReload());
         }
     }
+
+    private IEnumerator FadeAndReload()
+    {
+        if (sceneFaderObject != null)
+        {
+            sceneFaderObject.FadeOut();
+        }
+
+        yield return new WaitForSecondsRealtime(0.6f);
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
 }
