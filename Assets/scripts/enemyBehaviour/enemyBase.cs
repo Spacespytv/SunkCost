@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float health = 50f;
     [SerializeField] protected float contactDamage = 10f;
     [SerializeField] protected LayerMask playerLayer;
+    private bool isDead = false; 
 
     [Header("Visuals & FX")]
     [SerializeField] protected SpriteRenderer sr;
@@ -105,8 +106,11 @@ public class Enemy : MonoBehaviour
         flashCoroutine = null;
     }
 
-    protected virtual void Die()
+    public virtual void Die(bool spawnDrops = true)
     {
+        if (isDead) return;
+        isDead = true;
+
         if (ParticleManager.Instance != null && !string.IsNullOrEmpty(deathParticleName))
         {
             ParticleManager.Instance.PlayEffect(deathParticleName, transform.position, Quaternion.identity);
@@ -122,7 +126,7 @@ public class Enemy : MonoBehaviour
             Instantiate(deathLightPrefab, transform.position, Quaternion.identity);
         }
 
-        if (energyPrefab != null)
+        if (spawnDrops && energyPrefab != null)
         {
             for (int i = 0; i < energyDropAmount; i++)
             {
@@ -138,4 +142,5 @@ public class Enemy : MonoBehaviour
 
         Destroy(gameObject);
     }
+
 }

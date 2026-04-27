@@ -6,6 +6,7 @@ public class EnergyCrystal : MonoBehaviour
     private Transform targetCog;
     private bool isFlying = false;
     private bool hasHit = false;
+    private bool _shouldGiveBattery = true; // Moved here for clarity
     [SerializeField] private float flySpeed = 5f;
     [SerializeField] private float acceleration = 25f;
 
@@ -14,7 +15,7 @@ public class EnergyCrystal : MonoBehaviour
     [SerializeField] private string collectParticleName = "EnergyCollect";
 
     [Header("Camera Shake Settings")]
-    [SerializeField] private float hitShakePower = 0.1f;    
+    [SerializeField] private float hitShakePower = 0.1f;
     [SerializeField] private float hitShakeDuration = 0.05f;
     [Space]
     [SerializeField] private float deathShakePower = 0.2f;
@@ -35,28 +36,27 @@ public class EnergyCrystal : MonoBehaviour
         foreach (GameObject roof in roofs)
         {
             if (roof.TryGetComponent(out Collider2D roofCol))
-            {
                 Physics2D.IgnoreCollision(myCollider, roofCol);
-            }
         }
 
         GameObject player = GameObject.FindWithTag("Player");
         if (player != null && player.TryGetComponent(out Collider2D playerCol))
-        {
             Physics2D.IgnoreCollision(myCollider, playerCol);
-        }
 
+        // Initial pop-out force
         float randomX = Random.Range(-1.2f, 1.2f);
         float randomY = Random.Range(1.5f, 2.0f);
         Vector2 randomDir = new Vector2(randomX, randomY).normalized;
 
-        rb.AddForce(randomDir * Random.Range(8f,13f), ForceMode2D.Impulse);
+        rb.AddForce(randomDir * Random.Range(8f, 13f), ForceMode2D.Impulse);
         rb.AddTorque(Random.Range(-60f, 60f), ForceMode2D.Impulse);
     }
 
-    public void InitiateCollection()
+    public void InitiateCollection(bool giveBattery = true)
     {
         if (isFlying || hasHit) return;
+
+        _shouldGiveBattery = giveBattery; 
 
         if (collectFlashPrefab != null)
             Instantiate(collectFlashPrefab, transform.position, Quaternion.identity);
@@ -111,7 +111,7 @@ public class EnergyCrystal : MonoBehaviour
         if (hasHit) return;
         hasHit = true;
 
-        if (targetCog.TryGetComponent(out ElevatorCog cogScript))
+        if (_shouldGiveBattery && targetCog.TryGetComponent(out ElevatorCog cogScript))
         {
             cogScript.AddEnergy();
         }

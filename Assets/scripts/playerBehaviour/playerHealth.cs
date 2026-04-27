@@ -174,4 +174,21 @@ public class PlayerHealth : MonoBehaviour
         if (playerSR != null) playerSR.enabled = true;
         isInvincible = false;
     }
+    public void ResetHealth()
+    {
+        currentHealth = maxHealth;
+        isDead = false;
+        isInvincible = false;
+
+        if (healthUI != null)
+        {
+            healthUI.TriggerHit(1f); 
+        }
+
+        if (playerSR != null)
+        {
+            playerSR.enabled = true;
+            playerSR.color = originalColor;
+        }
+    }
 }

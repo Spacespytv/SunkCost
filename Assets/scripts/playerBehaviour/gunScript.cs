@@ -21,7 +21,6 @@ public class GunController : MonoBehaviour
 
     private Vector2 aimInput;
     private Camera cam;
-
     private bool isFiring;
     private float nextShotTime;
 
@@ -38,6 +37,8 @@ public class GunController : MonoBehaviour
 
     void HandleInput()
     {
+        if (!this.enabled) return;
+
         Vector2 direction = Vector2.zero;
 
         if (Mouse.current != null && Mouse.current.delta.ReadValue().sqrMagnitude > 0.01f)
@@ -68,16 +69,8 @@ public class GunController : MonoBehaviour
         gunVisual.localScale = gunScale;
 
         Vector3 playerScale = playerArt.localScale;
-
-        if (angle > 90 || angle < -90)
-        {
-            playerScale.x = -Mathf.Abs(playerScale.x);
-        }
-        else
-        {
-            playerScale.x = Mathf.Abs(playerScale.x);
-        }
-
+        if (angle > 90 || angle < -90) playerScale.x = -Mathf.Abs(playerScale.x);
+        else playerScale.x = Mathf.Abs(playerScale.x);
         playerArt.localScale = playerScale;
     }
 
@@ -95,14 +88,8 @@ public class GunController : MonoBehaviour
         if (bulletPrefab != null && muzzlePoint != null)
         {
             Instantiate(bulletPrefab, muzzlePoint.position, muzzlePoint.rotation);
-
-            if (camShake != null)
-                camShake.StartShake(fireShakeDuration, fireShakePower);
-
-            if (muzzleFlashPrefab != null)
-            {
-                GameObject flash = Instantiate(muzzleFlashPrefab, muzzlePoint.position, muzzlePoint.rotation, muzzlePoint);
-            }
+            if (camShake != null) camShake.StartShake(fireShakeDuration, fireShakePower);
+            if (muzzleFlashPrefab != null) Instantiate(muzzleFlashPrefab, muzzlePoint.position, muzzlePoint.rotation, muzzlePoint);
         }
     }
 
@@ -115,5 +102,21 @@ public class GunController : MonoBehaviour
     public void Aim(InputAction.CallbackContext context)
     {
         aimInput = context.ReadValue<Vector2>();
+    }
+
+    public void SetControlState(bool active)
+    {
+        this.enabled = active;
+
+        if (!active)
+        {
+            isFiring = false;
+            aimInput = Vector2.zero;
+            float resetAngle = (playerArt.localScale.x > 0) ? 0f : 180f;
+            gunPivot.rotation = Quaternion.Euler(0, 0, resetAngle);
+            Vector3 gunScale = gunVisual.localScale;
+            gunScale.y = 1f;
+            gunVisual.localScale = gunScale;
+        }
     }
 }

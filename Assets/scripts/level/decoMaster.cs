@@ -18,21 +18,26 @@ public class DecorationItem
 
 public class decoMaster : MonoBehaviour
 {
+    public static decoMaster Instance; // Singleton
     public List<DecorationItem> decoLibrary;
+
+    void Awake()
+    {
+        if (Instance == null) Instance = this;
+    }
 
     void Start()
     {
-        DecoZone[] zones = Object.FindObjectsByType<DecoZone>(FindObjectsSortMode.None);
+        RefreshDecos();
+    }
 
-        if (zones.Length == 0)
-        {
-            Debug.LogWarning("DecoMaster: No DecoZones found in the scene!");
-            return;
-        }
+    public void RefreshDecos()
+    {
+        DecoZone[] zones = Object.FindObjectsByType<DecoZone>(FindObjectsSortMode.None);
 
         foreach (var zone in zones)
         {
-            zone.Generate(decoLibrary);
+            zone.CleanAndGenerate(decoLibrary);
         }
     }
 }

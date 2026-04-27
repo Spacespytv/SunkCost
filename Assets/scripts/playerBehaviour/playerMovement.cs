@@ -137,4 +137,16 @@ public class playerMovement : MonoBehaviour
     }
 
     #endregion
+
+    public void SetControlState(bool enabled)
+    {
+        this.enabled = enabled;
+        if (!enabled)
+        {
+            horizontal = 0;
+            currentSpeed = 0;
+            rb.velocity = Vector2.zero; 
+            if (anim != null) anim.SetFloat("Speed", 0); 
+        }
+    }
 }

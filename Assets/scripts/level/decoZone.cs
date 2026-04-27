@@ -135,4 +135,14 @@ public class DecoZone : MonoBehaviour
 
         return null;
     }
+
+    public void CleanAndGenerate(List<DecorationItem> library)
+    {
+        for (int i = transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(transform.GetChild(i).gameObject);
+        }
+
+        Generate(library);
+    }
 }
