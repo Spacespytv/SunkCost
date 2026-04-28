@@ -56,4 +56,6 @@ public class ElevatorMotor : MonoBehaviour
             cogScript.isAutoRotating = true;
         }
     }
+
+
 }

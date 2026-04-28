@@ -37,6 +37,15 @@ public class CrosshairController : MonoBehaviour
                 aimAction = playerInput.actions.FindAction("Aim");
         }
 
+        if (playerInput != null)
+        {
+            bool isUsingGamepad = playerInput.currentControlScheme == "Gamepad";
+            mouseCursor.enabled = !isUsingGamepad;
+            orbitalCrosshair.enabled = isUsingGamepad;
+
+            if (isUsingGamepad) Cursor.visible = false;
+        }
+
         Cursor.visible = false;
     }
 

@@ -58,6 +58,7 @@ public class GameplayManager : MonoBehaviour
 
         playerObj.transform.SetParent(null);
         SetPlayerControls(true);
+        TutorialHUD.OnElevatorLanded?.Invoke();
     }
 
     public void AdvanceLayer()
