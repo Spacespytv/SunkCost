@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System.Collections;
+using UnityEngine.InputSystem;
 
 public class GameOverManager : MonoBehaviour
 {
@@ -13,6 +14,13 @@ public class GameOverManager : MonoBehaviour
     [SerializeField] private RectTransform chalkboard;
     [SerializeField] private GameObject[] uiToHide;
     [SerializeField] private TextMeshProUGUI chalkboardLayerText;
+    [SerializeField] private TextMeshProUGUI chalkboardBestText;
+
+    [Header("Restart Prompt Settings")]
+    [SerializeField] private Image restartPromptImage;
+    [SerializeField] private Sprite gamepadRestartSprite;
+    [SerializeField] private Sprite keyboardRestartSprite;
+    [SerializeField] private float promptFadeSpeed = 5f;
 
     [Header("Settings")]
     [SerializeField] private float targetDimAlpha = 0.8f;
@@ -24,11 +32,42 @@ public class GameOverManager : MonoBehaviour
     [SerializeField] private SceneFader sceneFaderObject;
 
     private bool canRestart = false;
+    private PlayerInput playerInput;
+    private Sprite lastAssignedSprite; 
 
     void Awake()
     {
         if (Instance == null) Instance = this;
         if (chalkboard != null) chalkboard.anchoredPosition = chalkboardStartPos;
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null) playerInput = player.GetComponent<PlayerInput>();
+
+        if (restartPromptImage != null)
+        {
+            Color c = restartPromptImage.color;
+            c.a = 0;
+            restartPromptImage.color = c;
+        }
+    }
+
+    void Update()
+    {
+        if (canRestart && restartPromptImage != null && playerInput != null)
+        {
+            bool isGamepad = playerInput.currentControlScheme == "Gamepad";
+            Sprite targetSprite = isGamepad ? gamepadRestartSprite : keyboardRestartSprite;
+
+            if (restartPromptImage.sprite != targetSprite)
+            {
+                restartPromptImage.sprite = targetSprite;
+                restartPromptImage.SetNativeSize();
+            }
+
+            Color c = restartPromptImage.color;
+            c.a = Mathf.MoveTowards(c.a, 1f, promptFadeSpeed * Time.unscaledDeltaTime);
+            restartPromptImage.color = c;
+        }
     }
 
     public void TriggerGameOver()
@@ -37,15 +76,23 @@ public class GameOverManager : MonoBehaviour
         if (hitFX != null) hitFX.StopAllCoroutines();
 
         int finalLayer = (GameplayManager.Instance != null) ? GameplayManager.Instance.currentLayer : 1;
-        StartCoroutine(GameOverRoutine(finalLayer));
+        int currentBest = PlayerPrefs.GetInt("HighScoreLayer", 1);
+
+        if (finalLayer > currentBest)
+        {
+            PlayerPrefs.SetInt("HighScoreLayer", finalLayer);
+            PlayerPrefs.Save();
+            currentBest = finalLayer;
+        }
+
+        StartCoroutine(GameOverRoutine(finalLayer, currentBest));
     }
 
-    private IEnumerator GameOverRoutine(int layerReached)
+    private IEnumerator GameOverRoutine(int layerReached, int bestLayer)
     {
         if (hitFlashImage != null)
         {
             hitFlashImage.gameObject.SetActive(true);
-
             float elapsed = 0;
             float startAlpha = hitFlashImage.color.a;
 
@@ -53,7 +100,6 @@ public class GameOverManager : MonoBehaviour
             {
                 elapsed += Time.unscaledDeltaTime;
                 float currentAlpha = Mathf.Lerp(startAlpha, targetDimAlpha, elapsed / fadeDuration);
-
                 hitFlashImage.color = new Color(0, 0, 0, currentAlpha);
                 yield return null;
             }
@@ -65,7 +111,17 @@ public class GameOverManager : MonoBehaviour
             if (ui != null) ui.SetActive(false);
         }
 
-        if (chalkboardLayerText != null) chalkboardLayerText.text = "LAYER: " + layerReached;
+        if (chalkboardLayerText != null)
+            chalkboardLayerText.text = "LAYER: " + layerReached;
+
+        if (chalkboardBestText != null)
+        {
+            chalkboardBestText.text = "BEST: " + bestLayer;
+            if (layerReached > bestLayer && layerReached > 1)
+            {
+                chalkboardBestText.text += " <color=#ede19e>NEW!</color>";
+            }
+        }
 
         float slideElapsed = 0;
         while (slideElapsed < slideDuration)
@@ -97,8 +153,6 @@ public class GameOverManager : MonoBehaviour
         }
 
         yield return new WaitForSecondsRealtime(0.6f);
-
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
-
 }

@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.InputSystem; 
+using UnityEngine.InputSystem;
 using System.Collections;
 
 public class ElevatorInteraction : MonoBehaviour
@@ -10,7 +10,8 @@ public class ElevatorInteraction : MonoBehaviour
     [Header("Visuals")]
     [SerializeField] private SpriteRenderer promptRenderer;
     [SerializeField] private Sprite arrowSprite;
-    [SerializeField] private Sprite buttonSprite;
+    [SerializeField] private Sprite buttonSprite;      
+    [SerializeField] private Sprite mouseButtonSprite; 
 
     [Header("Animation Settings")]
     [SerializeField] private float bobIntensity = 0.2f;
@@ -20,10 +21,14 @@ public class ElevatorInteraction : MonoBehaviour
     private bool isReady = false;
     private Vector3 originalPromptPos;
     private Coroutine bobCoroutine;
+    private PlayerInput playerInput;
 
     void Awake()
     {
         originalPromptPos = promptRenderer.transform.localPosition;
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null) playerInput = player.GetComponent<PlayerInput>();
     }
 
     void OnEnable()
@@ -77,8 +82,16 @@ public class ElevatorInteraction : MonoBehaviour
 
         if (isPlayerInside && isReady)
         {
-            promptRenderer.sprite = buttonSprite;
             promptRenderer.transform.localPosition = originalPromptPos;
+
+            if (playerInput != null && playerInput.currentControlScheme == "Gamepad")
+            {
+                promptRenderer.sprite = buttonSprite;
+            }
+            else
+            {
+                promptRenderer.sprite = mouseButtonSprite;
+            }
         }
         else if (isReady)
         {
@@ -120,5 +133,4 @@ public class ElevatorInteraction : MonoBehaviour
     {
         if (other.CompareTag("Player")) isPlayerInside = false;
     }
-
 }

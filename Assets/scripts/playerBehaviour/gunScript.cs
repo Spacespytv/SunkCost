@@ -7,6 +7,7 @@ public class GunController : MonoBehaviour
     [SerializeField] Transform gunPivot;
     [SerializeField] Transform gunVisual;
     [SerializeField] Transform playerArt;
+    [SerializeField] Transform crosshairTransform; // Drag your crosshair object here
 
     [Header("Shooting Settings")]
     [SerializeField] GameObject bulletPrefab;
@@ -23,10 +24,15 @@ public class GunController : MonoBehaviour
     private Camera cam;
     private bool isFiring;
     private float nextShotTime;
+    private SpriteRenderer crosshairSprite;
 
     private void Awake()
     {
         cam = Camera.main;
+        if (crosshairTransform != null)
+        {
+            crosshairSprite = crosshairTransform.GetComponentInChildren<SpriteRenderer>();
+        }
     }
 
     private void Update()
@@ -41,16 +47,23 @@ public class GunController : MonoBehaviour
 
         Vector2 direction = Vector2.zero;
 
-        if (Mouse.current != null && Mouse.current.delta.ReadValue().sqrMagnitude > 0.01f)
+        // 1. Check for Controller Stick Input first
+        if (aimInput.sqrMagnitude > 0.1f)
+        {
+            direction = aimInput;
+        }
+        // 2. Check for Mouse Movement
+        else if (Mouse.current != null && Mouse.current.delta.ReadValue().sqrMagnitude > 0.01f)
         {
             Vector3 mousePos = Mouse.current.position.ReadValue();
             mousePos.z = Mathf.Abs(cam.transform.position.z - transform.position.z);
             Vector3 mouseWorldPos = cam.ScreenToWorldPoint(mousePos);
             direction = (mouseWorldPos - gunPivot.position);
         }
-        else if (aimInput.sqrMagnitude > 0.1f)
+        // 3. Fallback: If we have a crosshair object, keep pointing at it even if idle
+        else if (crosshairTransform != null)
         {
-            direction = aimInput;
+            direction = (crosshairTransform.position - gunPivot.position);
         }
 
         if (direction != Vector2.zero)
