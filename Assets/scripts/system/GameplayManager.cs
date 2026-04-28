@@ -37,6 +37,27 @@ public class GameplayManager : MonoBehaviour
     void Start()
     {
         UpdateLayerUI();
+        StartCoroutine(InitialArrival());
+    }
+
+    private IEnumerator InitialArrival()
+    {
+        SetPlayerControls(false);
+
+        if (ElevatorMotor.Instance != null)
+        {
+            float resetHeight = 15f;
+            Vector3 currentPos = ElevatorMotor.Instance.transform.position;
+            ElevatorMotor.Instance.transform.position = new Vector3(currentPos.x, resetHeight, currentPos.z);
+
+            playerObj.transform.SetParent(ElevatorMotor.Instance.transform);
+            playerObj.transform.localPosition = new Vector3(0f, -1.5f, 0f);
+
+            yield return ElevatorMotor.Instance.DescendRoutine(2.0f, 15f);
+        }
+
+        playerObj.transform.SetParent(null);
+        SetPlayerControls(true);
     }
 
     public void AdvanceLayer()
@@ -83,29 +104,28 @@ public class GameplayManager : MonoBehaviour
     {
         isExtracting = true;
 
-        if (HitEffects.Instance != null)
-        {
-            HitEffects.Instance.PlayWinFlash();
-        }
-
+        if (HitEffects.Instance != null) HitEffects.Instance.PlayWinFlash();
         if (EnemySpawner.Instance != null) EnemySpawner.Instance.SetPause(true);
 
-        PlayerInput pInput = playerObj.GetComponent<PlayerInput>();
-        if (pInput != null) pInput.enabled = false;
+        SetPlayerControls(false);
 
-        playerMovement pMove = playerObj.GetComponent<playerMovement>();
-        GunController pGun = playerObj.GetComponent<GunController>();
+        if (ElevatorMotor.Instance != null)
+        {
+            playerObj.transform.SetParent(ElevatorMotor.Instance.transform);
 
-        if (pMove != null) pMove.SetControlState(false);
-        if (pGun != null) pGun.SetControlState(false);
+            float currentLocalX = playerObj.transform.localPosition.x;
+            playerObj.transform.localPosition = new Vector3(currentLocalX, -1.5f, 0f);
+
+            StartCoroutine(ElevatorMotor.Instance.DescendRoutine(3.0f, 15f));
+        }
 
         EnergyCrystal[] crystals = Object.FindObjectsByType<EnergyCrystal>(FindObjectsSortMode.None);
         foreach (EnergyCrystal crystal in crystals)
         {
             if (crystal != null)
             {
-                crystal.InitiateCollection(false); 
-                yield return new WaitForSecondsRealtime(0.03f); 
+                crystal.InitiateCollection(false);
+                yield return new WaitForSecondsRealtime(0.03f);
             }
         }
 
@@ -114,7 +134,7 @@ public class GameplayManager : MonoBehaviour
         {
             if (enemy != null)
             {
-                enemy.Die(false); 
+                enemy.Die(false);
                 yield return new WaitForSecondsRealtime(0.05f);
             }
         }
@@ -124,40 +144,60 @@ public class GameplayManager : MonoBehaviour
         if (SceneFader.Instance != null) SceneFader.Instance.FadeOut();
         yield return new WaitForSecondsRealtime(0.6f);
 
-        playerObj.transform.position = spawnPosition;
-
-
-        PlayerHealth pHealth = playerObj.GetComponent<PlayerHealth>();
-        if (pHealth != null) pHealth.ResetHealth();
+        if (ElevatorMotor.Instance != null) ElevatorMotor.Instance.StopAllCoroutines();
 
         AdvanceLayer();
 
-        if (TextureOffsetRandomizer.Instance != null)
+        if (ElevatorMotor.Instance != null)
         {
-            TextureOffsetRandomizer.Instance.RandomizeOffset();
+            float resetHeight = 15f;
+            Vector3 currentPos = ElevatorMotor.Instance.transform.position;
+            ElevatorMotor.Instance.transform.position = new Vector3(currentPos.x, resetHeight, currentPos.z);
+            ElevatorMotor.Instance.transform.GetChild(0).localRotation = Quaternion.identity;
+
+            playerObj.transform.SetParent(ElevatorMotor.Instance.transform);
+            playerObj.transform.localPosition = new Vector3(0f, -1.5f, 0f);
         }
 
-        if (decoMaster.Instance != null)
-        {
-            decoMaster.Instance.RefreshDecos();
-        }
-
-        if (EnemySpawner.Instance != null)
-        {
-            EnemySpawner.Instance.RestartSpawner(); 
-        }
+        PlayerHealth pHealth = playerObj.GetComponent<PlayerHealth>();
+        if (pHealth != null) pHealth.ResetHealth();
+        if (TextureOffsetRandomizer.Instance != null) TextureOffsetRandomizer.Instance.RandomizeOffset();
+        if (decoMaster.Instance != null) decoMaster.Instance.RefreshDecos();
 
         currentBattery = 0f;
         if (batteryUI != null) batteryUI.UpdateUI(0, maxBattery);
 
+        if (ElevatorMotor.Instance != null)
+        {
+            if (SceneFader.Instance != null) SceneFader.Instance.FadeToDim(0f, 1.5f);
+
+            yield return ElevatorMotor.Instance.DescendRoutine(2.0f, 15f);
+        }
+
+        playerObj.transform.SetParent(null);
+
         yield return new WaitForSecondsRealtime(0.2f);
 
-        if (SceneFader.Instance != null) SceneFader.Instance.FadeToDim(0f, 1.0f);
+        SetPlayerControls(true);
 
-        if (pInput != null) pInput.enabled = true;
-        if (pMove != null) pMove.SetControlState(true);
-        if (pGun != null) pGun.SetControlState(true);
+        if (EnemySpawner.Instance != null) EnemySpawner.Instance.RestartSpawner();
 
         isExtracting = false;
     }
-}
+
+    private void SetPlayerControls(bool state)
+    {
+        PlayerInput pInput = playerObj.GetComponent<PlayerInput>();
+        playerMovement pMove = playerObj.GetComponent<playerMovement>();
+        GunController pGun = playerObj.GetComponent<GunController>();
+        Rigidbody2D rb = playerObj.GetComponent<Rigidbody2D>();
+        Collider2D col = playerObj.GetComponent<Collider2D>();
+
+        if (pInput != null) pInput.enabled = state;
+        if (pMove != null) pMove.SetControlState(state);
+        if (pGun != null) pGun.SetControlState(state);
+
+        if (rb != null) rb.simulated = state;
+        if (col != null) col.enabled = state;
+    }
+} 

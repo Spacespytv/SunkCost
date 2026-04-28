@@ -1,11 +1,11 @@
 using UnityEngine;
-using UnityEngine.InputSystem; // Required for the new Input System
+using UnityEngine.InputSystem; 
 using System.Collections;
 
 public class ElevatorInteraction : MonoBehaviour
 {
     [Header("Input Action Reference")]
-    [SerializeField] private InputActionReference completeAction; // Drag your 'Complete' action here
+    [SerializeField] private InputActionReference completeAction;
 
     [Header("Visuals")]
     [SerializeField] private SpriteRenderer promptRenderer;
@@ -51,25 +51,25 @@ public class ElevatorInteraction : MonoBehaviour
     }
 
     void Update()
-{
-    if (GameplayManager.Instance.isExtracting)
     {
-        StopBobbing();
-        return;
-    }
-
-    if (GameplayManager.Instance.currentBattery >= GameplayManager.Instance.maxBattery)
-    {
-        if (!isReady)
+        if (GameplayManager.Instance.isExtracting)
         {
-            isReady = true;
-            promptRenderer.enabled = true;
-            promptRenderer.sprite = arrowSprite;
-
-            if (bobCoroutine == null)
-                bobCoroutine = StartCoroutine(BobPrompt());
+            StopBobbing();
+            return;
         }
-    }
+
+        if (GameplayManager.Instance.currentBattery >= GameplayManager.Instance.maxBattery)
+        {
+            if (!isReady)
+            {
+                isReady = true;
+                promptRenderer.enabled = true;
+                promptRenderer.sprite = arrowSprite;
+
+                if (bobCoroutine == null)
+                    bobCoroutine = StartCoroutine(BobPrompt());
+            }
+        }
         else
         {
             StopBobbing();
@@ -120,4 +120,5 @@ public class ElevatorInteraction : MonoBehaviour
     {
         if (other.CompareTag("Player")) isPlayerInside = false;
     }
+
 }

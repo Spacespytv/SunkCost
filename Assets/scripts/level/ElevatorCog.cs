@@ -6,6 +6,7 @@ public class ElevatorCog : MonoBehaviour
     [Header("Rotation Settings")]
     [SerializeField] private float degreesPerEnergy = 20f;
     [SerializeField] private float rotationLerpSpeed = 5f;
+    public bool isAutoRotating = true;
 
     [Header("Juice & FX")]
     [SerializeField] private SpriteRenderer flashSprite;
@@ -33,8 +34,11 @@ public class ElevatorCog : MonoBehaviour
 
     void Update()
     {
-        float currentZ = Mathf.LerpAngle(transform.eulerAngles.z, targetZRotation, Time.deltaTime * rotationLerpSpeed);
-        transform.eulerAngles = new Vector3(0, 0, currentZ);
+        if (isAutoRotating)
+        {
+            float currentZ = Mathf.LerpAngle(transform.eulerAngles.z, targetZRotation, Time.deltaTime * rotationLerpSpeed);
+            transform.eulerAngles = new Vector3(0, 0, currentZ);
+        }
 
         transform.localScale = Vector3.MoveTowards(transform.localScale, originalScale, Time.deltaTime * scaleReturnSpeed);
     }
@@ -71,5 +75,9 @@ public class ElevatorCog : MonoBehaviour
 
         c.a = 0;
         flashSprite.color = c;
+    }
+    public void SyncRotation()
+    {
+        targetZRotation = transform.eulerAngles.z;
     }
 }
