@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic; // Added for List support
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
@@ -12,6 +13,10 @@ public class EnemySpawner : MonoBehaviour
         public GameObject prefab;
         public float spawnHeight;
         public bool isCeilingEnemy;
+
+        [Header("Progression")]
+        public int unlockLayer = 1; 
+        [Range(1, 100)] public int spawnWeight = 10; 
     }
 
     [Header("Spawn Points")]
@@ -30,6 +35,7 @@ public class EnemySpawner : MonoBehaviour
     [Header("Live Debug Values (Read Only)")]
     [SerializeField] private float currentMin;
     [SerializeField] private float currentMax;
+    [SerializeField] private int enemiesUnlocked;
 
     [Header("Enemy Catalog")]
     [SerializeField] private EnemySpawnSettings[] enemyPool;
@@ -78,16 +84,46 @@ public class EnemySpawner : MonoBehaviour
 
             if (!isPaused)
             {
-                SpawnRandomEnemy();
+                SpawnRandomEnemy(layer);
             }
         }
     }
 
-    private void SpawnRandomEnemy()
+    private void SpawnRandomEnemy(int currentLayer)
     {
         if (enemyPool.Length == 0) return;
 
-        EnemySpawnSettings settings = enemyPool[Random.Range(0, enemyPool.Length)];
+        List<EnemySpawnSettings> availableEnemies = new List<EnemySpawnSettings>();
+        int totalWeight = 0;
+
+        foreach (var enemy in enemyPool)
+        {
+            if (currentLayer >= enemy.unlockLayer)
+            {
+                availableEnemies.Add(enemy);
+                totalWeight += enemy.spawnWeight;
+            }
+        }
+
+        if (availableEnemies.Count == 0) return;
+        enemiesUnlocked = availableEnemies.Count;
+
+        EnemySpawnSettings settings = null;
+        int roll = Random.Range(0, totalWeight);
+        int cursor = 0;
+
+        foreach (var enemy in availableEnemies)
+        {
+            cursor += enemy.spawnWeight;
+            if (roll < cursor)
+            {
+                settings = enemy;
+                break;
+            }
+        }
+
+        if (settings == null) settings = availableEnemies[0];
+
         bool spawnOnLeft = Random.value > 0.5f;
         float spawnX = spawnOnLeft ? leftSpawnPos.position.x : rightSpawnPos.position.x;
 
