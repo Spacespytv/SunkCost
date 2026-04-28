@@ -83,6 +83,11 @@ public class GameplayManager : MonoBehaviour
     {
         isExtracting = true;
 
+        if (HitEffects.Instance != null)
+        {
+            HitEffects.Instance.PlayWinFlash();
+        }
+
         if (EnemySpawner.Instance != null) EnemySpawner.Instance.SetPause(true);
 
         PlayerInput pInput = playerObj.GetComponent<PlayerInput>();
@@ -126,6 +131,11 @@ public class GameplayManager : MonoBehaviour
         if (pHealth != null) pHealth.ResetHealth();
 
         AdvanceLayer();
+
+        if (TextureOffsetRandomizer.Instance != null)
+        {
+            TextureOffsetRandomizer.Instance.RandomizeOffset();
+        }
 
         if (decoMaster.Instance != null)
         {
