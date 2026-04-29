@@ -7,7 +7,7 @@ public class GunController : MonoBehaviour
     [SerializeField] Transform gunPivot;
     [SerializeField] Transform gunVisual;
     [SerializeField] Transform playerArt;
-    [SerializeField] Transform crosshairTransform; // Drag your crosshair object here
+    [SerializeField] Transform crosshairTransform; 
 
     [Header("Shooting Settings")]
     [SerializeField] GameObject bulletPrefab;
@@ -47,12 +47,10 @@ public class GunController : MonoBehaviour
 
         Vector2 direction = Vector2.zero;
 
-        // 1. Check for Controller Stick Input first
         if (aimInput.sqrMagnitude > 0.1f)
         {
             direction = aimInput;
         }
-        // 2. Check for Mouse Movement
         else if (Mouse.current != null && Mouse.current.delta.ReadValue().sqrMagnitude > 0.01f)
         {
             Vector3 mousePos = Mouse.current.position.ReadValue();
@@ -60,7 +58,6 @@ public class GunController : MonoBehaviour
             Vector3 mouseWorldPos = cam.ScreenToWorldPoint(mousePos);
             direction = (mouseWorldPos - gunPivot.position);
         }
-        // 3. Fallback: If we have a crosshair object, keep pointing at it even if idle
         else if (crosshairTransform != null)
         {
             direction = (crosshairTransform.position - gunPivot.position);
@@ -101,6 +98,7 @@ public class GunController : MonoBehaviour
         if (bulletPrefab != null && muzzlePoint != null)
         {
             Instantiate(bulletPrefab, muzzlePoint.position, muzzlePoint.rotation);
+            AudioManager.Instance.Play("Gun");
             if (camShake != null) camShake.StartShake(fireShakeDuration, fireShakePower);
             if (muzzleFlashPrefab != null) Instantiate(muzzleFlashPrefab, muzzlePoint.position, muzzlePoint.rotation, muzzlePoint);
         }

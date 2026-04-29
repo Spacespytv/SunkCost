@@ -5,7 +5,6 @@ using System.Collections;
 public class BatteryUI : MonoBehaviour
 {
     [Header("Sprites (Size: 5)")]
-    // 0: Empty, 1: Red, 2: Amber, 3: Yellow, 4: Green
     [SerializeField] private Sprite[] batteryStates;
     [SerializeField] private Image batteryImage;
 
@@ -49,6 +48,7 @@ public class BatteryUI : MonoBehaviour
         if (flashOverlay == null) return;
         if (flashRoutine != null) StopCoroutine(flashRoutine);
         flashRoutine = StartCoroutine(FadeFlash());
+        AudioManager.Instance.PlayRisingManual("Battery");
     }
 
     private IEnumerator FadeFlash()

@@ -149,6 +149,8 @@ public class GameplayManager : MonoBehaviour
 
         AdvanceLayer();
 
+        AudioManager.Instance.ResetAllRisingPitches();
+
         if (ElevatorMotor.Instance != null)
         {
             float resetHeight = 15f;

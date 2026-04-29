@@ -184,6 +184,7 @@ public class TutorialHUD : MonoBehaviour
         {
             if (impactCoroutine != null) StopCoroutine(impactCoroutine);
             impactCoroutine = StartCoroutine(ObjectiveClearImpact());
+            AudioManager.Instance.PlayRisingManual("Mission");
         }
 
         currentStepIndex++;

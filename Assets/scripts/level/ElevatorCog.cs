@@ -47,6 +47,7 @@ public class ElevatorCog : MonoBehaviour
     {
         targetZRotation += degreesPerEnergy;
         transform.localScale = originalScale * scalePulseAmount;
+        AudioManager.Instance.Play("Cog");
 
         if (flashSprite != null)
         {

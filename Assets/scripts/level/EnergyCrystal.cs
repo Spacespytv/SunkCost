@@ -76,7 +76,7 @@ public class EnergyCrystal : MonoBehaviour
     {
         targetCog = cog;
         isFlying = true;
-
+        AudioManager.Instance.PlayRising("Crystal");
         rb.bodyType = RigidbodyType2D.Kinematic;
         rb.velocity = Vector2.zero;
         rb.angularVelocity = 0;

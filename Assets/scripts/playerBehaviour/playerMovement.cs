@@ -30,6 +30,11 @@ public class playerMovement : MonoBehaviour
     [SerializeField] private ProceduralAnimator procAnim;
     private bool wasGrounded;
 
+    [Header("Footsteps")]
+    [SerializeField] private float stepInterval = 0.35f;
+    [SerializeField] private string footstepSoundName = "Footstep";
+    private float stepTimer;
+
     private float horizontal;
     private float currentSpeed;
     private bool jumpHeld;
@@ -44,6 +49,7 @@ public class playerMovement : MonoBehaviour
     {
         bool isGrounded = IsGrounded();
         jumpBufferCounter -= Time.deltaTime;
+        HandleFootsteps(isGrounded);
 
         if (jumpBufferCounter > 0 && isGrounded)
         {
@@ -53,6 +59,7 @@ public class playerMovement : MonoBehaviour
             if (ParticleManager.Instance != null)
             {
                 ParticleManager.Instance.PlayEffect("Jump", groundCheck.position, Quaternion.identity);
+                AudioManager.Instance.Play("Jump");
             }
         }
 
@@ -72,11 +79,40 @@ public class playerMovement : MonoBehaviour
             if (ParticleManager.Instance != null)
             {
                 ParticleManager.Instance.PlayEffect("Land", groundCheck.position, Quaternion.identity);
+                AudioManager.Instance.Play("Land");
             }
         }
 
         wasGrounded = isGrounded;
         UpdateAnimations();
+
+        void HandleFootsteps(bool isGrounded)
+        {
+            bool isMoving = Mathf.Abs(rb.velocity.x) > 0.5f;
+
+            if (isGrounded && isMoving)
+            {
+                stepTimer -= Time.deltaTime;
+
+                if (stepTimer <= 0f)
+                {
+                    if (AudioManager.Instance != null)
+                    {
+                        AudioManager.Instance.Play(footstepSoundName);
+                    }
+
+                    float speedModifier = Mathf.InverseLerp(0, maxSpeed, Mathf.Abs(rb.velocity.x));
+                    stepTimer = Mathf.Lerp(stepInterval, stepInterval * 0.75f, speedModifier);
+                }
+            }
+            else
+            {
+                if (stepTimer <= 0)
+                {
+                    stepTimer = 0.05f;
+                }
+            }
+        }
     }
 
     private void FixedUpdate()

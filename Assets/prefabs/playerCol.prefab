@@ -548,6 +548,8 @@ MonoBehaviour:
   groundCheck: {fileID: 2419372759998249703}
   artObject: {fileID: 7090307303034842188}
   procAnim: {fileID: 1142195103539580553}
+  stepInterval: 0.35
+  footstepSoundName: Footstep
 --- !u!114 &1142195103539580553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -640,6 +642,7 @@ MonoBehaviour:
   gunPivot: {fileID: 869076930397848709}
   gunVisual: {fileID: 134417036034190572}
   playerArt: {fileID: 7090307303034842188}
+  crosshairTransform: {fileID: 0}
   bulletPrefab: {fileID: 3340141520763646615, guid: 0ef525d2cf005eb439cac1fcf56c9dfb, type: 3}
   muzzlePoint: {fileID: 6049133238895474413}
   fireRate: 0.2
