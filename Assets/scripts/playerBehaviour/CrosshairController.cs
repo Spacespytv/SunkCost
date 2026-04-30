@@ -7,7 +7,7 @@ public class CrosshairController : MonoBehaviour
     [SerializeField] private float pinnedRadius = 3f;
     [SerializeField] private float fadeSpeed = 20f;
     [Range(0f, 1f)]
-    [SerializeField] private float controllerDeadzone = 0.45f; 
+    [SerializeField] private float controllerDeadzone = 0.45f;
 
     [Header("References")]
     [SerializeField] private SpriteRenderer orbitalCrosshair;
@@ -20,6 +20,7 @@ public class CrosshairController : MonoBehaviour
     private float currentAlpha = 0f;
     private Vector2 lastValidDirection = Vector2.right;
     private Camera cam;
+    private bool forceHide = false;
 
     void Awake()
     {
@@ -42,8 +43,6 @@ public class CrosshairController : MonoBehaviour
             bool isUsingGamepad = playerInput.currentControlScheme == "Gamepad";
             mouseCursor.enabled = !isUsingGamepad;
             orbitalCrosshair.enabled = isUsingGamepad;
-
-            if (isUsingGamepad) Cursor.visible = false;
         }
 
         Cursor.visible = false;
@@ -51,7 +50,7 @@ public class CrosshairController : MonoBehaviour
 
     void Update()
     {
-        if (playerTransform == null) return;
+        if (playerTransform == null || forceHide) return;
 
         bool isUsingGamepad = playerInput.currentControlScheme == "Gamepad";
 
@@ -87,6 +86,17 @@ public class CrosshairController : MonoBehaviour
             transform.position = mouseWorldPos;
 
             lastMousePos = currentMousePos;
+        }
+    }
+
+    public void SetVisibility(bool state)
+    {
+        forceHide = !state;
+
+        if (forceHide)
+        {
+            mouseCursor.enabled = false;
+            orbitalCrosshair.enabled = false;
         }
     }
 }

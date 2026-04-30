@@ -106,6 +106,9 @@ public class GameplayManager : MonoBehaviour
     {
         isExtracting = true;
 
+        CrosshairController crosshair = FindFirstObjectByType<CrosshairController>();
+        if (crosshair != null) crosshair.SetVisibility(false);
+
         AudioManager.Instance.Play("Button");
         if (HitEffects.Instance != null) HitEffects.Instance.PlayWinFlash();
         if (EnemySpawner.Instance != null) EnemySpawner.Instance.SetPause(true);
@@ -184,6 +187,8 @@ public class GameplayManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.2f);
 
         SetPlayerControls(true);
+
+        if (crosshair != null) crosshair.SetVisibility(true);
 
         if (EnemySpawner.Instance != null) EnemySpawner.Instance.RestartSpawner();
 
