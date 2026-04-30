@@ -15,6 +15,7 @@ public class WaspEnemy : Enemy
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform firePoint;
     [SerializeField] private float fireRate = 3f;
+    [SerializeField] private float fireRateVariance = 0.5f; // New: Variation range
     [SerializeField] private float chargeDuration = 0.75f;
 
     [Header("FX Settings")]
@@ -25,6 +26,7 @@ public class WaspEnemy : Enemy
     private Rigidbody2D rb;
     private Transform player;
     private float fireTimer;
+    private float nextFireInterval; // New: The current calculated goal
     private SpriteRenderer waspSR;
 
     protected override void Start()
@@ -34,6 +36,8 @@ public class WaspEnemy : Enemy
         moveSpeed += Random.Range(-speedVariance, speedVariance);
         rb.gravityScale = 0f;
         waspSR = GetComponentInChildren<SpriteRenderer>();
+
+        CalculateNextFireInterval();
 
         GameObject p = GameObject.FindGameObjectWithTag("Player");
         if (p != null) player = p.transform;
@@ -46,13 +50,18 @@ public class WaspEnemy : Enemy
         if (currentState == WaspState.Chasing)
         {
             HandleMovement();
-            
+
             fireTimer += Time.deltaTime;
-            if (fireTimer >= fireRate)
+            if (fireTimer >= nextFireInterval)
             {
                 StartCoroutine(ChargeAndShoot());
             }
         }
+    }
+
+    private void CalculateNextFireInterval()
+    {
+        nextFireInterval = fireRate + Random.Range(-fireRateVariance, fireRateVariance);
     }
 
     private void HandleMovement()
@@ -60,7 +69,6 @@ public class WaspEnemy : Enemy
         if (player == null) return;
 
         float dirX = Mathf.Sign(player.position.x - transform.position.x);
-
         if (Mathf.Abs(player.position.x - transform.position.x) < 0.2f) dirX = 0;
 
         float targetVelocityX = dirX * moveSpeed;
@@ -81,6 +89,7 @@ public class WaspEnemy : Enemy
         float facing = transform.localScale.x;
         float particleAngle = facing > 0 ? -45f : -135f;
         Quaternion particleRotation = Quaternion.Euler(0, 0, particleAngle);
+        AudioManager.Instance.PlayOneShot("WaspCharge");
 
         if (ParticleManager.Instance != null && !string.IsNullOrEmpty(chargeParticle))
         {
@@ -108,6 +117,8 @@ public class WaspEnemy : Enemy
         yield return new WaitForSeconds(0.2f);
 
         fireTimer = 0;
+        CalculateNextFireInterval();
+
         currentState = WaspState.Chasing;
     }
 
@@ -117,19 +128,10 @@ public class WaspEnemy : Enemy
 
         float facing = transform.localScale.x;
         float angle = (facing > 0) ? -45f : -135f;
-
         Quaternion bulletRotation = Quaternion.Euler(0, 0, angle);
 
         GameObject bullet = Instantiate(projectilePrefab, firePoint.position, bulletRotation);
-
-        if (ParticleManager.Instance != null && !string.IsNullOrEmpty(fireParticle))
-        {
-            ParticleManager.Instance.PlayEffect(fireParticle, firePoint.position, bulletRotation);
-            if (camShake != null)
-            {
-                camShake.StartShake(hitShakeDuration, hitShakePower);
-            }
-        }
+        AudioManager.Instance.PlayOneShot("WaspShoot");
 
         if (bullet.TryGetComponent(out EnemyProjectile proj))
         {

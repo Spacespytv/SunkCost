@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
     [Header("Visuals & FX")]
     [SerializeField] protected SpriteRenderer sr;
     [SerializeField] protected string deathParticleName = "EnemyExplosion";
+    [SerializeField] protected string deathSoundName = "Rat";
     [SerializeField] protected GameObject deathLightPrefab; 
 
     [Header("Camera Shake Settings")]
@@ -87,6 +88,7 @@ public class Enemy : MonoBehaviour
         if (camShake != null && health > 0)
         {
             camShake.StartShake(hitShakeDuration, hitShakePower);
+            AudioManager.Instance.Play("EnemyHit");
         }
 
         if (sr != null && redFlashMat != null)
@@ -110,6 +112,8 @@ public class Enemy : MonoBehaviour
     {
         if (isDead) return;
         isDead = true;
+        AudioManager.Instance.Play(deathSoundName);
+        AudioManager.Instance.Play("Explosion");
 
         if (ParticleManager.Instance != null && !string.IsNullOrEmpty(deathParticleName))
         {

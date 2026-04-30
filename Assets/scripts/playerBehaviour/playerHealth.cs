@@ -45,7 +45,7 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = maxHealth;
         rb = GetComponent<Rigidbody2D>();
         movementScript = GetComponent<playerMovement>();
-        allColliders = GetComponents<BoxCollider2D>(); // Grab all box colliders on the player
+        allColliders = GetComponents<BoxCollider2D>(); 
 
         if (playerSR == null) playerSR = GetComponentInChildren<SpriteRenderer>();
         if (playerSR != null) originalColor = playerSR.color;
@@ -58,6 +58,8 @@ public class PlayerHealth : MonoBehaviour
         if (isInvincible || isDead) return;
 
         currentHealth -= damage;
+        AudioManager.Instance.Play("Hurt");
+        AudioManager.Instance.Play("Slice");
 
         if (currentHealth <= 0)
         {
@@ -98,6 +100,7 @@ public class PlayerHealth : MonoBehaviour
     {
         if (healthUI != null) healthUI.TriggerHit(0);
         if (hitFX != null) hitFX.SetDeathPinch();
+        AudioManager.Instance.Play("Build");
 
         if (hatTorchLight != null) hatTorchLight.SetActive(false);
 
@@ -124,6 +127,8 @@ public class PlayerHealth : MonoBehaviour
 
         if (CameraShake.Instance != null)
             CameraShake.Instance.StartShake(1.5f, 0.5f);
+        AudioManager.Instance.Play("PlayerDeath");
+        AudioManager.Instance.Play("PlayerExplosion");
 
         yield return new WaitForSeconds(0.8f);
 

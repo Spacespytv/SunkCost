@@ -141,6 +141,7 @@ public class GameOverManager : MonoBehaviour
         if (canRestart)
         {
             canRestart = false;
+            AudioManager.Instance.Play("Mission");
             StartCoroutine(FadeAndReload());
         }
     }

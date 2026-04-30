@@ -125,18 +125,56 @@ public class AudioManager : MonoBehaviour
 
     public void ResetRisingPitch(string soundName)
     {
-        Sound s = GetSound(soundName);
+        Sound s = Array.Find(sounds, item => item.name == soundName);
+
         if (s != null)
         {
             s.lastRisingPitch = 1.0f;
         }
+        else
+        {
+            Debug.LogWarning($"Could not find sound '{soundName}' to reset pitch.");
+        }
     }
-
     public void ResetAllRisingPitches()
     {
         foreach (Sound s in sounds)
         {
             s.lastRisingPitch = 1.0f;
         }
+    }
+
+    public void PlayOneShot(string soundName)
+    {
+        Sound s = GetSound(soundName);
+        if (s == null || s.source == null) return;
+
+        if (s.randomPitch)
+        {
+            s.source.pitch = s.pitch + UnityEngine.Random.Range(-0.1f, 0.1f);
+        }
+        else
+        {
+            s.source.pitch = s.pitch;
+        }
+
+        s.source.PlayOneShot(s.clip, s.volume);
+    }
+
+    public void PlayRisingOneShot(string soundName)
+    {
+        Sound s = GetSound(soundName);
+        if (s == null || s.source == null) return;
+        s.source.pitch = s.lastRisingPitch;
+        s.source.PlayOneShot(s.clip, s.volume);
+        s.lastRisingPitch = Mathf.Min(s.lastRisingPitch + pitchStep, maxRisingPitch);
+        StopCoroutine(nameof(ResetPitchAfterDelay));
+        StartCoroutine(ResetPitchAfterDelay(s));
+    }
+
+    private IEnumerator ResetPitchAfterDelay(Sound s)
+    {
+        yield return new WaitForSeconds(pitchResetTime);
+        s.lastRisingPitch = 1.0f;
     }
 }

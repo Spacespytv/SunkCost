@@ -652,7 +652,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 1.8487091, y: -3.164433}
+  m_Offset: {x: 1.8487091, y: -3.14055}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -662,7 +662,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 20.85648, y: 3.4053876}
+  m_Size: {x: 20.85648, y: 3.453154}
   m_EdgeRadius: 0
 --- !u!1 &5471608243403900005
 GameObject:
@@ -816,7 +816,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 1.8487091, y: -3.2030382}
+  m_Offset: {x: 1.8487091, y: -3.1805704}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -826,7 +826,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 20.85648, y: 3.434781}
+  m_Size: {x: 20.85648, y: 3.3898454}
   m_EdgeRadius: 0
 --- !u!1 &5962698724523460226
 GameObject:
@@ -933,6 +933,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cogTransform: {fileID: 7441540245846109982}
   totalRotation: 1440
+  motorSoundName: Elevator
 --- !u!1 &8161753115395104761
 GameObject:
   m_ObjectHideFlags: 0

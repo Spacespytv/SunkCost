@@ -10,19 +10,22 @@ public class ElevatorMotor : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private float totalRotation = 720f;
+    [SerializeField] private string motorSoundName = "ElevatorLoop"; 
 
     private void Awake()
     {
         if (Instance == null) Instance = this;
     }
 
-    public IEnumerator DescendRoutine(float duration, float targetYOffset)
+    public IEnumerator DescendRoutine(float duration, float targetYOffset, bool playBellAtEnd)
     {
         float elapsed = 0;
         Vector3 startPos = transform.position;
         Vector3 endPos = new Vector3(startPos.x, startPos.y - targetYOffset, startPos.z);
 
         float startRotation = cogTransform != null ? cogTransform.eulerAngles.z : 0;
+
+        AudioManager.Instance.Play(motorSoundName);
 
         ElevatorCog cogScript = null;
         if (cogTransform != null)
@@ -50,12 +53,17 @@ public class ElevatorMotor : MonoBehaviour
 
         transform.position = endPos;
 
+        AudioManager.Instance.Stop(motorSoundName);
+
+        if (playBellAtEnd)
+        {
+            AudioManager.Instance.Play("Bell");
+        }
+
         if (cogScript != null)
         {
             cogScript.SyncRotation();
             cogScript.isAutoRotating = true;
         }
     }
-
-
 }

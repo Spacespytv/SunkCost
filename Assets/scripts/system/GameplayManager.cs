@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem;
 using TMPro;
+using static UnityEngine.Rendering.DebugUI;
 
 public class GameplayManager : MonoBehaviour
 {
@@ -53,7 +54,7 @@ public class GameplayManager : MonoBehaviour
             playerObj.transform.SetParent(ElevatorMotor.Instance.transform);
             playerObj.transform.localPosition = new Vector3(0f, -1.5f, 0f);
 
-            yield return ElevatorMotor.Instance.DescendRoutine(2.0f, 15f);
+            yield return ElevatorMotor.Instance.DescendRoutine(2.0f, 15f, true);
         }
 
         playerObj.transform.SetParent(null);
@@ -105,6 +106,7 @@ public class GameplayManager : MonoBehaviour
     {
         isExtracting = true;
 
+        AudioManager.Instance.Play("Button");
         if (HitEffects.Instance != null) HitEffects.Instance.PlayWinFlash();
         if (EnemySpawner.Instance != null) EnemySpawner.Instance.SetPause(true);
 
@@ -117,7 +119,7 @@ public class GameplayManager : MonoBehaviour
             float currentLocalX = playerObj.transform.localPosition.x;
             playerObj.transform.localPosition = new Vector3(currentLocalX, -1.5f, 0f);
 
-            StartCoroutine(ElevatorMotor.Instance.DescendRoutine(3.0f, 15f));
+            StartCoroutine(ElevatorMotor.Instance.DescendRoutine(3.0f, 15f, false));
         }
 
         EnergyCrystal[] crystals = Object.FindObjectsByType<EnergyCrystal>(FindObjectsSortMode.None);
@@ -174,7 +176,7 @@ public class GameplayManager : MonoBehaviour
         {
             if (SceneFader.Instance != null) SceneFader.Instance.FadeToDim(0f, 1.5f);
 
-            yield return ElevatorMotor.Instance.DescendRoutine(2.0f, 15f);
+            yield return ElevatorMotor.Instance.DescendRoutine(2.0f, 15f, true);
         }
 
         playerObj.transform.SetParent(null);

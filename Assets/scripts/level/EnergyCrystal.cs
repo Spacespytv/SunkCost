@@ -6,7 +6,7 @@ public class EnergyCrystal : MonoBehaviour
     private Transform targetCog;
     private bool isFlying = false;
     private bool hasHit = false;
-    private bool _shouldGiveBattery = true; // Moved here for clarity
+    private bool _shouldGiveBattery = true; 
     [SerializeField] private float flySpeed = 5f;
     [SerializeField] private float acceleration = 25f;
 
@@ -76,7 +76,7 @@ public class EnergyCrystal : MonoBehaviour
     {
         targetCog = cog;
         isFlying = true;
-        AudioManager.Instance.PlayRising("Crystal");
+        AudioManager.Instance.PlayRisingOneShot("Crystal");
         rb.bodyType = RigidbodyType2D.Kinematic;
         rb.velocity = Vector2.zero;
         rb.angularVelocity = 0;
