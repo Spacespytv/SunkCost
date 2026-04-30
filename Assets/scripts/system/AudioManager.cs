@@ -32,6 +32,11 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        PlayMusicWithFade("MainMusic", 0.5f);
+    }
+
     public void Play(string soundName)
     {
         Sound s = GetSound(soundName);
@@ -92,7 +97,7 @@ public class AudioManager : MonoBehaviour
         source.pitch = target;
     }
 
-    private Sound GetSound(string name)
+    public Sound GetSound(string name)
     {
         Sound s = Array.Find(sounds, soundClip => soundClip.name == name);
         if (s == null) Debug.LogWarning("Sound: " + name + " not found.");
@@ -176,5 +181,40 @@ public class AudioManager : MonoBehaviour
     {
         yield return new WaitForSeconds(pitchResetTime);
         s.lastRisingPitch = 1.0f;
+    }
+
+    public void FadeSound(string soundName, float targetVolume, float duration)
+    {
+        Sound s = GetSound(soundName);
+        if (s == null || s.source == null) return;
+
+        StartCoroutine(FadeRoutine(s, targetVolume, duration));
+    }
+
+    private IEnumerator FadeRoutine(Sound s, float targetVolume, float duration)
+    {
+        float startVolume = s.source.volume;
+        float elapsed = 0;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            s.source.volume = Mathf.Lerp(startVolume, targetVolume, elapsed / duration);
+            yield return null;
+        }
+
+        s.source.volume = targetVolume;
+        if (targetVolume <= 0) s.source.Stop();
+    }
+
+    public void PlayMusicWithFade(string soundName, float duration)
+    {
+        Sound s = GetSound(soundName);
+        if (s == null || s.source == null) return;
+
+        s.source.volume = 0f;
+        s.source.Play();
+
+        FadeSound(soundName, s.volume, duration);
     }
 }

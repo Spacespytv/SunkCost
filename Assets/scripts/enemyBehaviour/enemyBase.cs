@@ -112,8 +112,8 @@ public class Enemy : MonoBehaviour
     {
         if (isDead) return;
         isDead = true;
-        AudioManager.Instance.Play(deathSoundName);
-        AudioManager.Instance.Play("Explosion");
+        AudioManager.Instance.PlayOneShot(deathSoundName);
+        AudioManager.Instance.PlayOneShot("Explosion");
 
         if (ParticleManager.Instance != null && !string.IsNullOrEmpty(deathParticleName))
         {

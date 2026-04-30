@@ -33,6 +33,15 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private float deathShakePower = 1.2f;
     [SerializeField] private float lightFlashIntensity = 5f;
 
+    [Header("Audio Settings")]
+    [SerializeField] private string musicName = "MainMusic";
+    [SerializeField] private float musicFadeDuration = 0.5f;
+
+    [Header("Audio Warp Settings")]
+    [SerializeField] private string mainMusicName = "MainMusic";
+    [SerializeField] private float hitPitchDrop = 0.5f;
+    [SerializeField] private float pitchRecoveryTime = 2f;
+
     private bool isInvincible = false;
     private bool isDead = false;
 
@@ -60,6 +69,14 @@ public class PlayerHealth : MonoBehaviour
         currentHealth -= damage;
         AudioManager.Instance.Play("Hurt");
         AudioManager.Instance.Play("Slice");
+
+        if (AudioManager.Instance != null)
+        {
+            Sound s = AudioManager.Instance.GetSound(mainMusicName);
+            if (s != null) s.source.pitch = hitPitchDrop;
+
+            AudioManager.Instance.ShiftMusicPitch(mainMusicName, 1.0f, pitchRecoveryTime);
+        }
 
         if (currentHealth <= 0)
         {
@@ -100,6 +117,12 @@ public class PlayerHealth : MonoBehaviour
     {
         if (healthUI != null) healthUI.TriggerHit(0);
         if (hitFX != null) hitFX.SetDeathPinch();
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.FadeSound(musicName, 0f, musicFadeDuration);
+        }
+
         AudioManager.Instance.Play("Build");
 
         if (hatTorchLight != null) hatTorchLight.SetActive(false);

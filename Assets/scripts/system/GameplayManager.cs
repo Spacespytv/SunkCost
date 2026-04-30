@@ -54,7 +54,7 @@ public class GameplayManager : MonoBehaviour
             playerObj.transform.SetParent(ElevatorMotor.Instance.transform);
             playerObj.transform.localPosition = new Vector3(0f, -1.5f, 0f);
 
-            yield return ElevatorMotor.Instance.DescendRoutine(2.0f, 15f, true);
+            yield return ElevatorMotor.Instance.DescendRoutine(2.0f, 15f, true, true);
         }
 
         playerObj.transform.SetParent(null);
@@ -119,7 +119,7 @@ public class GameplayManager : MonoBehaviour
             float currentLocalX = playerObj.transform.localPosition.x;
             playerObj.transform.localPosition = new Vector3(currentLocalX, -1.5f, 0f);
 
-            StartCoroutine(ElevatorMotor.Instance.DescendRoutine(3.0f, 15f, false));
+            StartCoroutine(ElevatorMotor.Instance.DescendRoutine(3.0f, 15f, false, false));
         }
 
         EnergyCrystal[] crystals = Object.FindObjectsByType<EnergyCrystal>(FindObjectsSortMode.None);
@@ -176,7 +176,7 @@ public class GameplayManager : MonoBehaviour
         {
             if (SceneFader.Instance != null) SceneFader.Instance.FadeToDim(0f, 1.5f);
 
-            yield return ElevatorMotor.Instance.DescendRoutine(2.0f, 15f, true);
+            yield return ElevatorMotor.Instance.DescendRoutine(2.0f, 15f, true, true);
         }
 
         playerObj.transform.SetParent(null);

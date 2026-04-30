@@ -68,6 +68,8 @@ public class ElevatorInteraction : MonoBehaviour
             if (!isReady)
             {
                 isReady = true;
+                AudioManager.Instance.Play("FullCharge");
+                AudioManager.Instance.Play("Electric");
                 promptRenderer.enabled = true;
                 promptRenderer.sprite = arrowSprite;
 

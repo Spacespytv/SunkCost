@@ -167,6 +167,7 @@ public class MoleEnemy : Enemy
     private IEnumerator WarningThenBurst()
     {
         currentState = MoleState.Warning;
+        AudioManager.Instance.PlayOneShot("Dig");
 
         if (moleVisual != null) moleVisual.SetActive(true);
         if (burrowVisual != null) burrowVisual.SetActive(true);
@@ -216,6 +217,7 @@ public class MoleEnemy : Enemy
 
         float launchDir = isOnCeiling ? -1f : 1f;
         rb.velocity = new Vector2(0, burstForce * launchDir);
+        AudioManager.Instance.PlayOneShot("Burst");
     }
 
     private void CheckForSurface()
@@ -266,6 +268,8 @@ public class MoleEnemy : Enemy
     private void EnterBurrow()
     {
         currentState = MoleState.Burrowing;
+
+        float currentRunDuration = burrowDuration + Random.Range(-burrowVariance, burrowVariance);
         burrowTimer = 0;
 
         if (moleVisual != null) moleVisual.SetActive(false);

@@ -206,6 +206,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   impactForce: 3
+  swingSoundName: Wind
+  maxPitch: 1.5
+  minPitch: 0.8
+  velocityThreshold: 5
 --- !u!50 &3430219709869370994
 Rigidbody2D:
   serializedVersion: 4
@@ -249,7 +253,7 @@ HingeJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: -0.04, y: 1.5}
-  m_ConnectedAnchor: {x: -7.206667, y: 2.8333335}
+  m_ConnectedAnchor: {x: -7.206667, y: 2.7916665}
   m_UseConnectedAnchor: 1
   m_UseMotor: 0
   m_Motor:

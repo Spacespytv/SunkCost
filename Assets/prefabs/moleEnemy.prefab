@@ -181,7 +181,7 @@ MonoBehaviour:
   burstForce: 10
   speedVariance: 0.8
   burrowDuration: 2.5
-  burrowVariance: 0
+  burrowVariance: 0.5
   warningDuration: 0.75
   digInDuration: 0
   launchGracePeriod: 0.15

@@ -591,9 +591,14 @@ MonoBehaviour:
   hitStopDuration: 0.1
   invincibilityDuration: 1.5
   blinkRate: 0.05
-  deathFreezeDuration: 0.5
+  deathFreezeDuration: 0.8
   deathShakePower: 1
   lightFlashIntensity: 25
+  musicName: MainMusic
+  musicFadeDuration: 0.5
+  mainMusicName: MainMusic
+  hitPitchDrop: 0.7
+  pitchRecoveryTime: 1
 --- !u!1 &4840457424288586692
 GameObject:
   m_ObjectHideFlags: 0

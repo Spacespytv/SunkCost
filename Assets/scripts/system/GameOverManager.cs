@@ -33,7 +33,6 @@ public class GameOverManager : MonoBehaviour
 
     private bool canRestart = false;
     private PlayerInput playerInput;
-    private Sprite lastAssignedSprite; 
 
     void Awake()
     {
@@ -72,24 +71,28 @@ public class GameOverManager : MonoBehaviour
 
     public void TriggerGameOver()
     {
-        HitEffects hitFX = FindFirstObjectByType<HitEffects>();
-        if (hitFX != null) hitFX.StopAllCoroutines();
+        int layerReached = (GameplayManager.Instance != null) ? GameplayManager.Instance.currentLayer : 1;
+        int previousBest = PlayerPrefs.GetInt("HighScoreLayer", 1);
 
-        int finalLayer = (GameplayManager.Instance != null) ? GameplayManager.Instance.currentLayer : 1;
-        int currentBest = PlayerPrefs.GetInt("HighScoreLayer", 1);
-
-        if (finalLayer > currentBest)
+        if (layerReached > previousBest)
         {
-            PlayerPrefs.SetInt("HighScoreLayer", finalLayer);
+            PlayerPrefs.SetInt("HighScoreLayer", layerReached);
             PlayerPrefs.Save();
-            currentBest = finalLayer;
         }
 
-        StartCoroutine(GameOverRoutine(finalLayer, currentBest));
+        StartCoroutine(GameOverRoutine(layerReached, previousBest));
+
+        HitEffects hitFX = FindFirstObjectByType<HitEffects>();
+        if (hitFX != null) hitFX.StopAllCoroutines();
     }
 
     private IEnumerator GameOverRoutine(int layerReached, int bestLayer)
     {
+        foreach (GameObject ui in uiToHide)
+        {
+            if (ui != null) ui.SetActive(false);
+        }
+
         if (hitFlashImage != null)
         {
             hitFlashImage.gameObject.SetActive(true);
@@ -106,20 +109,18 @@ public class GameOverManager : MonoBehaviour
             hitFlashImage.color = new Color(0, 0, 0, targetDimAlpha);
         }
 
-        foreach (GameObject ui in uiToHide)
-        {
-            if (ui != null) ui.SetActive(false);
-        }
-
         if (chalkboardLayerText != null)
             chalkboardLayerText.text = "LAYER: " + layerReached;
 
         if (chalkboardBestText != null)
         {
-            chalkboardBestText.text = "BEST: " + bestLayer;
-            if (layerReached > bestLayer && layerReached > 1)
+            if (layerReached > bestLayer)
             {
-                chalkboardBestText.text += " <color=#ede19e>NEW!</color>";
+                chalkboardBestText.text = "BEST: " + layerReached + " <color=#EDE19E>NEW!</color>";
+            }
+            else
+            {
+                chalkboardBestText.text = "BEST: " + bestLayer;
             }
         }
 
@@ -128,7 +129,7 @@ public class GameOverManager : MonoBehaviour
         {
             slideElapsed += Time.unscaledDeltaTime;
             float t = Mathf.Clamp01(slideElapsed / slideDuration);
-            t = t * t * (3f - 2f * t);
+            t = t * t * (3f - 2f * t); 
             chalkboard.anchoredPosition = Vector2.Lerp(chalkboardStartPos, chalkboardEndPos, t);
             yield return null;
         }
@@ -155,5 +156,12 @@ public class GameOverManager : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(0.6f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void ResetHighScore()
+    {
+        PlayerPrefs.SetInt("HighScoreLayer", 1);
+        PlayerPrefs.Save();
+        if (chalkboardBestText != null) chalkboardBestText.text = "BEST: 1";
     }
 }
