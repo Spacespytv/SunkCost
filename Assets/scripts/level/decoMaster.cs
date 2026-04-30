@@ -18,7 +18,7 @@ public class DecorationItem
 
 public class decoMaster : MonoBehaviour
 {
-    public static decoMaster Instance; // Singleton
+    public static decoMaster Instance; 
     public List<DecorationItem> decoLibrary;
 
     void Awake()

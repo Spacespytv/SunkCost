@@ -15,7 +15,7 @@ public class WaspEnemy : Enemy
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform firePoint;
     [SerializeField] private float fireRate = 3f;
-    [SerializeField] private float fireRateVariance = 0.5f; // New: Variation range
+    [SerializeField] private float fireRateVariance = 0.5f; 
     [SerializeField] private float chargeDuration = 0.75f;
 
     [Header("FX Settings")]
@@ -26,7 +26,7 @@ public class WaspEnemy : Enemy
     private Rigidbody2D rb;
     private Transform player;
     private float fireTimer;
-    private float nextFireInterval; // New: The current calculated goal
+    private float nextFireInterval; 
     private SpriteRenderer waspSR;
 
     protected override void Start()
